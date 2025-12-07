@@ -9,7 +9,8 @@
     "lint": "eslint",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "typegen": "sanity schema extract --path=src/sanity/extract.json && sanity typegen generate"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.14.3",
@@ -19,6 +20,7 @@
     "next-sanity": "^11.6.10",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-query": "^3.39.3",
     "sanity": "^4.20.3",
     "styled-components": "^6.1.19",
     "three": "^0.181.2"

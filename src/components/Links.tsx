@@ -1,5 +1,5 @@
 import { Screen, StateProps } from "@/app/page";
-import React from "react";
+import React                  from "react";
 
 export const Links: React.FC<StateProps> = (props) => {
   const onMouseOverGetter = (key: number) => () => props.selectionSetter(key);
@@ -46,8 +46,13 @@ export const Links: React.FC<StateProps> = (props) => {
 
   return (
     <>
-      <div className="text-white font-mono text-sm font-light">
-        <ul>{liItems}</ul>
+      <div className="leftArea m-15">
+        <h1 className={"text-white font-mono font-bold text-3xl"}>
+          spencer raymond
+        </h1>
+        <div className="text-white font-mono text-sm font-light">
+          <ul>{liItems}</ul>
+        </div>
       </div>
     </>
   );

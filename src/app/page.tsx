@@ -4,6 +4,9 @@ import ThreeScene from "@/components/ThreeScene";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Links } from "@/components/Links";
 import { Discog } from "@/components/Discog";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export type StateProps = {
   screenSetter: Dispatch<SetStateAction<Screen>>;
@@ -29,17 +32,14 @@ export default function Home() {
 
   return (
     <main>
-      <div className="container">
-        <ThreeScene />
+      <QueryClientProvider client={queryClient}>
+        <div className="container">
+          <ThreeScene />
 
-        <div className="leftArea m-15">
-          <h1 className={"text-white font-mono font-bold text-3xl"}>
-            spencer raymond
-          </h1>
           {currentScreen == Screen.Home && <Links {...stateProps} />}
           {currentScreen == Screen.Discog && <Discog {...stateProps} />}
         </div>
-      </div>
+      </QueryClientProvider>
     </main>
   );
 }
