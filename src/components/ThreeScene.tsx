@@ -82,12 +82,15 @@ const ThreeScene: React.FC = () => {
         effect.domElement.style.color = "white";
         effect.domElement.style.backgroundColor = "black";
         effect.domElement.style.position = "absolute";
+        //renderer.domElement.style.position = "absolute";
         effect.domElement.className = "asciiEffect font-mono";
+        //renderer.domElement.className = "asciiEffect font-mono";
 
         // Special case: append effect.domElement, instead of renderer.domElement.
         // AsciiEffect creates a custom domElement (a div container) where the ASCII elements are placed.
 
         document.body.appendChild(effect.domElement);
+        //document.body.appendChild(renderer.domElement);
 
         window.addEventListener("resize", onWindowResize);
       }
@@ -96,7 +99,7 @@ const ThreeScene: React.FC = () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        //renderer.setSize(window.innerWidth, window.innerHeight);
         effect.setSize(window.innerWidth, window.innerHeight);
       }
 
@@ -130,7 +133,7 @@ const ThreeScene: React.FC = () => {
 
         effect.render(scene, camera);
 
-        // renderer.render(scene, camera);
+        //renderer.render(scene, camera);
       }
     }
   }, []);

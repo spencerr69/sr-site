@@ -398,13 +398,6 @@
         },
         "optional": true
       },
-      "link": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
       "releaseDate": {
         "type": "objectAttribute",
         "value": {
@@ -412,14 +405,14 @@
         },
         "optional": true
       },
-      "UPC": {
+      "upc": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
         "optional": true
       },
-      "Active": {
+      "active": {
         "type": "objectAttribute",
         "value": {
           "type": "boolean"
@@ -439,6 +432,20 @@
         "value": {
           "type": "inline",
           "name": "slug"
+        },
+        "optional": true
+      },
+      "trackCount": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
+      "stockNumber": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       }

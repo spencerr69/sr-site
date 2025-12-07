@@ -1,5 +1,5 @@
 import { Screen, StateProps } from "@/app/page";
-import React                  from "react";
+import React from "react";
 
 export const Links: React.FC<StateProps> = (props) => {
   const onMouseOverGetter = (key: number) => () => props.selectionSetter(key);
@@ -36,7 +36,7 @@ export const Links: React.FC<StateProps> = (props) => {
           }
           onMouseOver={onMouseOverGetter(i)}
           href={link.url ? link.url : "#"}
-          className={"cursor-pointer " + selectedClass}
+          className={"social-link cursor-pointer " + selectedClass}
         >
           {link.name}
         </a>

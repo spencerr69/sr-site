@@ -70,12 +70,13 @@ export type Release = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  link?: string;
   releaseDate?: string;
-  UPC?: string;
-  Active?: boolean;
+  upc?: string;
+  active?: boolean;
   links?: Links;
   slug?: Slug;
+  trackCount?: number;
+  stockNumber?: string;
 };
 
 export type Slug = {
@@ -200,7 +201,7 @@ export type AllSanitySchemaTypes = Links | SiteSettings | Release | Slug | Sanit
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: RELEASES_QUERY
-// Query: *[_type == "release" && Active == true]
+// Query: *[_type == "release" && active == true]
 export type RELEASES_QUERYResult = Array<{
   _id: string;
   _type: "release";
@@ -220,18 +221,12 @@ export type RELEASES_QUERYResult = Array<{
     crop?: SanityImageCrop;
     _type: "image";
   };
-  link?: string;
   releaseDate?: string;
-  UPC?: string;
-  Active?: boolean;
+  upc?: string;
+  active?: boolean;
   links?: Links;
   slug?: Slug;
+  trackCount?: number;
+  stockNumber?: string;
 }>;
 
-// Query TypeMap
-import "@sanity/client";
-declare module "@sanity/client" {
-  interface SanityQueries {
-    "*[_type == \"release\" && Active == true]": RELEASES_QUERYResult;
-  }
-}

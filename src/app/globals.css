@@ -33,11 +33,29 @@ body {
     z-index: -1;
 }
 
-.selected-link {
+.selected-link.social-link {
     @apply italic;
 }
 
-.selected-link::before {
+.release {
+    @apply border-gray-500;
+    transition: 0.1s;
+}
+
+.release:hover {
+    @apply border-white;
+
+}
+
+.selected-link.social-link::before {
+    content: "> ";
+    @apply not-italic;
+    @apply font-bold;
+    position: absolute;
+    transform: translateX(-200%);
+}
+
+.selected-link.discog-link::before {
     content: "> ";
     @apply not-italic;
     @apply font-bold;
