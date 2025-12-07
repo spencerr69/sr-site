@@ -1,8 +1,8 @@
-import React, {useEffect, useRef} from "react";
-import * as THREE                 from "three";
+import React, { useEffect, useRef } from "react";
+import * as THREE from "three";
 
-import {AsciiEffect} from "three/addons/effects/AsciiEffect.js";
-import {OBJLoader}   from "three/addons/loaders/OBJLoader.js";
+import { AsciiEffect } from "three/addons/effects/AsciiEffect.js";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 
 const ThreeScene: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -114,9 +114,9 @@ const ThreeScene: React.FC = () => {
             star.scale.y =
             star.scale.z =
               Math.sin(timer * 0.0007) * 0.1 + 0.9;
-          star.position.x += Math.sin(timer * Math.random() * 0.00005) * 0.5;
-          star.position.y += Math.sin(timer * Math.random() * 0.00005) * 0.5;
-          star.position.z += Math.sin(timer * Math.random() * 0.00005) * 0.5;
+          star.position.x += Math.sin(timer * Math.random() * 0.00005) * 0.1;
+          star.position.y += Math.sin(timer * Math.random() * 0.00005) * 0.1;
+          star.position.z += Math.sin(timer * Math.random() * 0.00005) * 0.1;
           if (star.position.x > 500) {
             star.position.x = -900;
           }

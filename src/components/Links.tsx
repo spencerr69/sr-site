@@ -1,0 +1,54 @@
+import { Screen, StateProps } from "@/app/page";
+import React from "react";
+
+export const Links: React.FC<StateProps> = (props) => {
+  const onMouseOverGetter = (key: number) => () => props.selectionSetter(key);
+
+  type Link = {
+    name: string;
+    url: string;
+  };
+
+  const links: Link[] = [
+    { name: "discography", url: "" },
+    { name: "spotify", url: "" },
+    { name: "apple music", url: "" },
+    { name: "bandcamp", url: "" },
+    { name: "soundcloud", url: "" },
+    { name: "twitter", url: "" },
+    { name: "instagram", url: "" },
+    { name: "youtube", url: "" },
+  ];
+
+  const liItems = links.map((link, i) => {
+    const selectedClass = props.selected === i ? "selected-link" : "";
+
+    return (
+      <li key={i}>
+        <a
+          onClick={
+            i == 0
+              ? () => {
+                  props.screenSetter(Screen.Discog);
+                  props.selectionSetter(0);
+                }
+              : () => {}
+          }
+          onMouseOver={onMouseOverGetter(i)}
+          href={link.url ? link.url : "#"}
+          className={"cursor-pointer " + selectedClass}
+        >
+          {link.name}
+        </a>
+      </li>
+    );
+  });
+
+  return (
+    <>
+      <div className="text-white font-mono text-sm font-light">
+        <ul>{liItems}</ul>
+      </div>
+    </>
+  );
+};
