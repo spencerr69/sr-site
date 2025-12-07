@@ -11,6 +11,9 @@
     --color-foreground: var(--foreground);
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-chivo-mono);
+
+    --color-gray-900: #111111;
+    --color-gray-950: #040404;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -60,5 +63,5 @@ body {
     @apply not-italic;
     @apply font-bold;
     position: absolute;
-    transform: translateX(-200%);
+    transform: translateX(-310%) translateY(25%);
 }

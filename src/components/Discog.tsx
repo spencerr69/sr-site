@@ -1,11 +1,11 @@
 import { Screen, StateProps } from "@/app/page";
 
-import { client }               from "@/sanity/lib/client";
-import { RELEASES_QUERY }       from "@/sanity/lib/queries";
-import Image                    from "next/image";
-import { useQuery }             from "react-query";
+import { client } from "@/sanity/lib/client";
+import { RELEASES_QUERY } from "@/sanity/lib/queries";
+import Image from "next/image";
+import { useQuery } from "react-query";
 import { RELEASES_QUERYResult } from "@/sanity/sanity.types";
-import { urlFor }               from "@/sanity/lib/image";
+import { urlFor } from "@/sanity/lib/image";
 
 const BASE_LINK_URL = "https://link.spencerraymon.de/";
 
@@ -44,14 +44,14 @@ export const Discog: React.FC<StateProps> = (props) => {
         <li key={release._id} className={"mb-5"}>
           <div
             className={
-              "release  bg-gray-900 p-2 border-dotted border-2  w-3/4 discog-card" +
+              "release  bg-gray-900 p-2 border-dotted border-2  discog-card discog-link " +
               selectedClass
             }
           >
             <a
               href={BASE_LINK_URL + release.slug?.current}
               onMouseOver={onMouseOverGetter(i + 1)}
-              className={" cursor-pointer discog-link " + selectedClass}
+              className={" cursor-pointer discog-link "}
             >
               <h2 className={"font-bold text-xl"}>{release.title}</h2>
               <p>{release.releaseDate}</p>
@@ -66,14 +66,19 @@ export const Discog: React.FC<StateProps> = (props) => {
         <>
           <div
             className={
-              "content-end artwork p-3 border-dotted border-2 right-15 bg-gray-900"
+              "relative aspect-square w-full max-h-256 content-end artwork p-3 border-dotted border-2" +
+              " bg-gray-900" +
+              " hidden" +
+              " lg:block"
             }
           >
             <Image
+              className={"h-full w-full p-3 object-contain"}
               src={image}
               alt={`Album artwork for ${release.title}`}
-              width={750}
-              height={750}
+              fill
+              loading={"lazy"}
+              preload={false}
             />
           </div>
         </>,
@@ -90,8 +95,8 @@ export const Discog: React.FC<StateProps> = (props) => {
   });
 
   return (
-    <div className={"flex flex-row content-end justify-end w-dvw"}>
-      <div className="leftArea m-15 flex-1">
+    <div className={"flex flex-row content-end justify-between w-dvw h-screen"}>
+      <div className="leftArea m-15 min-w-1/2 max-w-256 w-2/2 lg:w-3/5">
         <h1 className={"text-white font-mono font-bold text-3xl"}>
           spencer raymond
         </h1>
@@ -118,7 +123,7 @@ export const Discog: React.FC<StateProps> = (props) => {
           </ul>
         </div>
       </div>
-      <div className="rightArea m-15 flex-1  w-1/2">
+      <div className="rightArea max-h-screen m-15 flex-1 hidden lg:block ">
         {isLoading ? (
           <p></p>
         ) : error ? (

@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import * as THREE from "three";
+import React, {useEffect, useRef} from "react";
+import * as THREE                 from "three";
 
-import { AsciiEffect } from "three/addons/effects/AsciiEffect.js";
-import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import {AsciiEffect} from "three/addons/effects/AsciiEffect.js";
+import {OBJLoader}   from "three/addons/loaders/OBJLoader.js";
 
 const ThreeScene: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -80,10 +80,9 @@ const ThreeScene: React.FC = () => {
         });
         effect.setSize(window.innerWidth, window.innerHeight);
         effect.domElement.style.color = "white";
-        effect.domElement.style.backgroundColor = "black";
         effect.domElement.style.position = "absolute";
         //renderer.domElement.style.position = "absolute";
-        effect.domElement.className = "asciiEffect font-mono";
+        effect.domElement.className = "asciiEffect font-mono bg-gray-950";
         //renderer.domElement.className = "asciiEffect font-mono";
 
         // Special case: append effect.domElement, instead of renderer.domElement.
