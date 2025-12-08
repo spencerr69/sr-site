@@ -34,7 +34,7 @@ export default function Home() {
     <main>
       <QueryClientProvider client={queryClient}>
         <div className="container">
-          <ThreeScene />
+          <ThreeScene currentScreen={currentScreen} />
 
           {currentScreen == Screen.Home && <Links {...stateProps} />}
           {currentScreen == Screen.Discog && <Discog {...stateProps} />}

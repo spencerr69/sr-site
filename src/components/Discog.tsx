@@ -66,17 +66,19 @@ export const Discog: React.FC<StateProps> = (props) => {
         <>
           <div
             className={
-              "relative aspect-square w-full max-h-256 content-end artwork p-3 border-dotted border-2" +
+              " aspect-square max-h-128 artwork p-3 border-gray-500 border-dotted border-2" +
               " bg-gray-900" +
               " hidden" +
               " lg:block"
             }
           >
             <Image
-              className={"h-full w-full p-3 object-contain"}
+              className={" p-3 object-fit h-full max-h-128"}
               src={image}
               alt={`Album artwork for ${release.title}`}
-              fill
+              width={750}
+              height={750}
+              // fill
               loading={"lazy"}
               preload={false}
             />
@@ -123,7 +125,7 @@ export const Discog: React.FC<StateProps> = (props) => {
           </ul>
         </div>
       </div>
-      <div className="rightArea max-h-screen m-15 flex-1 hidden lg:block ">
+      <div className="rightArea m-15 hidden lg:block ">
         {isLoading ? (
           <p></p>
         ) : error ? (

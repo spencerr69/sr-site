@@ -1,143 +1,145 @@
-import React, {useEffect, useRef} from "react";
-import * as THREE                 from "three";
+"use client";
 
-import {AsciiEffect} from "three/addons/effects/AsciiEffect.js";
-import {OBJLoader}   from "three/addons/loaders/OBJLoader.js";
+import React, { useEffect, useRef } from "react";
+import * as THREE from "three";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { AsciiRenderer } from "@react-three/drei";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { Screen } from "@/app/page";
 
-const ThreeScene: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+type Props = { currentScreen: Screen };
+
+function CameraController({ currentScreen }: Props) {
+  const target = useRef(new THREE.Vector3(0, 0, 300));
+  // Update target when the screen changes
+  useEffect(() => {
+    switch (currentScreen) {
+      case Screen.Discog:
+        target.current.set(-50, 50, 150);
+        break;
+      case Screen.Home:
+      default:
+        target.current.set(0, 0, 500);
+        break;
+    }
+  }, [currentScreen]);
+
+  useFrame(({ camera }) => {
+    camera.position.lerp(target.current, 0.05);
+    camera.updateProjectionMatrix();
+  });
+  return null;
+}
+
+function Planet() {
+  const obj = useLoader(OBJLoader, "/sr2planet.obj");
+  const planetRef = useRef<THREE.Object3D>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      let camera: THREE.PerspectiveCamera,
-        scene: THREE.Scene<THREE.Object3DEventMap>,
-        renderer: THREE.WebGLRenderer,
-        effect: AsciiEffect;
-
-      let sphere: THREE.Object3D<THREE.Object3DEventMap>;
-
-      const stars: THREE.Object3D<THREE.Object3DEventMap>[] = [];
-
-      const start = Date.now();
-
-      init().then();
-
-      async function init() {
-        camera = new THREE.PerspectiveCamera(
-          70,
-          window.innerWidth / window.innerHeight,
-          1,
-          1000,
-        );
-        camera.position.z = 300;
-
-        scene = new THREE.Scene();
-        scene.background = new THREE.Color(0, 0, 0);
-
-        const pointLight1 = new THREE.PointLight(0xffffff, 3, 0, 0);
-        pointLight1.position.set(300, 300, 300);
-        scene.add(pointLight1);
-
-        const pointLight2 = new THREE.PointLight(0xffffff, 1, 0, 0);
-        pointLight2.position.set(-500, -500, -500);
-        scene.add(pointLight2);
-
-        const loader = new OBJLoader();
-        sphere = await loader.loadAsync("./sr2planet.obj");
-        sphere.scale.set(20, 20, 20);
-        sphere.rotation.x = 0.5;
-        sphere.rotation.z = 0.2;
-
-        for (let i = 0; i < 100; i++) {
-          stars.push(
-            new THREE.Mesh(
-              new THREE.SphereGeometry(6, 3, 2),
-              new THREE.MeshBasicMaterial({ color: 0xffffff }),
-            ),
-          );
-        }
-
-        // stars.fill(new THREE.Mesh(new THREE.SphereGeometry(6, 3, 2), new THREE.MeshBasicMaterial({color:
-        // 0xffffff})), 0, 300);
-
-        stars.forEach((star) => {
-          star.position.x = Math.random() * 2000 - 1000;
-          star.position.y = Math.random() * 2000 - 1000;
-          star.position.z = Math.random() * 2000 - 1000;
-          scene.add(star);
-        });
-
-        // sphere = new THREE.Mesh(new THREE.SphereGeometry(200, 20, 10), new
-        // THREE.MeshPhongMaterial({flatShading: true}));
-        scene.add(sphere);
-
-        renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setAnimationLoop(animate);
-
-        effect = new AsciiEffect(renderer, " .,spencerraymond,", {
-          invert: true,
-        });
-        effect.setSize(window.innerWidth, window.innerHeight);
-        effect.domElement.style.color = "white";
-        effect.domElement.style.position = "absolute";
-        //renderer.domElement.style.position = "absolute";
-        effect.domElement.className = "asciiEffect font-mono bg-gray-950";
-        //renderer.domElement.className = "asciiEffect font-mono";
-
-        // Special case: append effect.domElement, instead of renderer.domElement.
-        // AsciiEffect creates a custom domElement (a div container) where the ASCII elements are placed.
-
-        document.body.appendChild(effect.domElement);
-        //document.body.appendChild(renderer.domElement);
-
-        window.addEventListener("resize", onWindowResize);
-      }
-
-      function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        //renderer.setSize(window.innerWidth, window.innerHeight);
-        effect.setSize(window.innerWidth, window.innerHeight);
-      }
-
-      //
-
-      function animate() {
-        const timer = Date.now() - start;
-
-        sphere.rotation.y = timer * -0.0002;
-
-        sphere.rotation.z = Math.sin(timer * 0.0007) * 0.1;
-
-        stars.forEach((star) => {
-          star.scale.x =
-            star.scale.y =
-            star.scale.z =
-              Math.sin(timer * 0.0007) * 0.1 + 0.9;
-          star.position.x += Math.sin(timer * Math.random() * 0.00005) * 0.1;
-          star.position.y += Math.sin(timer * Math.random() * 0.00005) * 0.1;
-          star.position.z += Math.sin(timer * Math.random() * 0.00005) * 0.1;
-          if (star.position.x > 500) {
-            star.position.x = -900;
-          }
-          if (star.position.y > 300) {
-            star.position.y = -900;
-          }
-          if (star.position.z > 300) {
-            star.position.z = -900;
-          }
-        });
-
-        effect.render(scene, camera);
-
-        //renderer.render(scene, camera);
-      }
-    }
+    if (!planetRef.current) return;
+    planetRef.current.scale.set(30, 30, 30);
+    planetRef.current.rotation.x = 0.5;
+    planetRef.current.rotation.z = 0.2;
   }, []);
 
-  return <div ref={containerRef} />;
+  useFrame((state) => {
+    const start = state.clock.elapsedTime * 1000; // convert to ms-like scaling
+    const obj3d = planetRef.current;
+    if (!obj3d) return;
+    obj3d.rotation.y = start * -0.0002;
+    obj3d.rotation.z = Math.sin(start * 0.0007) * 0.1;
+  });
+
+  return <primitive ref={planetRef} object={obj} />;
+}
+
+function Stars() {
+  const count = 300;
+  const positions = new Array(count).fill(0).map(
+    () =>
+      [
+        // eslint-disable-next-line react-hooks/purity
+        Math.random() * 2000 - 1000,
+        // eslint-disable-next-line react-hooks/purity
+        Math.random() * 2000 - 1000,
+        // eslint-disable-next-line react-hooks/purity
+        Math.random() * 2000 - 1000,
+      ] as [number, number, number],
+  );
+
+  const refs = useRef<THREE.Mesh[]>([]);
+  refs.current = [];
+
+  useFrame((state) => {
+    const timer = state.clock.elapsedTime * 1000;
+    refs.current.forEach((star) => {
+      if (!star) return;
+      const s = Math.sin(timer * 0.0007) * 0.1 + 0.9;
+      star.scale.set(s, s, s);
+      star.position.x += Math.sin(timer * Math.random() * 0.00005) * 0.1;
+      star.position.y += Math.sin(timer * Math.random() * 0.00005) * 0.1;
+      star.position.z += Math.sin(timer * Math.random() * 0.00005) * 0.1;
+      if (star.position.x > 500) star.position.x = -900;
+      if (star.position.y > 300) star.position.y = -900;
+      if (star.position.z > 300) star.position.z = -900;
+    });
+  });
+
+  return (
+    <group>
+      {positions.map((pos, i) => (
+        <mesh
+          key={i}
+          position={pos}
+          ref={(el) => {
+            if (el) refs.current[i] = el;
+          }}
+        >
+          <sphereGeometry args={[2, 2, 2]} />
+          <meshBasicMaterial color={0xffffff} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+const ThreeScene: React.FC<Props> = ({ currentScreen }) => {
+  return (
+    <div className="fixed inset-0 asciiEffect font-mono bg-gray-950">
+      <Canvas
+        camera={{
+          fov: 70,
+          near: 1,
+          far: 10000,
+          position: [0, 0, 100],
+          rotation: [0, 0, 0],
+        }}
+        style={{ position: "absolute", inset: 0 }}
+      >
+        {/* Scene background */}
+        <color attach="background" args={["black"]} />
+
+        {/* Lights */}
+        <pointLight position={[200, 200, 200]} intensity={500000} />
+        <pointLight position={[-500, -500, 200]} intensity={50000} />
+
+        {/* Objects */}
+        <Stars />
+        <Planet />
+
+        {/* Camera controller reacts to currentScreen */}
+        <CameraController currentScreen={currentScreen} />
+
+        {/* ASCII effect overlay */}
+        <AsciiRenderer
+          invert
+          characters=" .,spencerraymond,"
+          fgColor="white"
+          bgColor="#0a0a0a"
+        />
+      </Canvas>
+    </div>
+  );
 };
 
 export default ThreeScene;

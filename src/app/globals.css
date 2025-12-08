@@ -9,7 +9,6 @@
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
-    --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-chivo-mono);
 
     --color-gray-900: #111111;
@@ -65,3 +64,15 @@ body {
     position: absolute;
     transform: translateX(-310%) translateY(25%);
 }
+
+blockquote {
+    @apply italic;
+}
+
+blockquote::before{
+    @apply text-center;
+    content: "| ";
+    @apply not-italic;
+}
+
+

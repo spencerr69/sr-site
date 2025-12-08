@@ -1,5 +1,6 @@
 import { Screen, StateProps } from "@/app/page";
 import React from "react";
+import Link from "next/link";
 
 export const Links: React.FC<StateProps> = (props) => {
   const onMouseOverGetter = (key: number) => () => props.selectionSetter(key);
@@ -11,6 +12,8 @@ export const Links: React.FC<StateProps> = (props) => {
 
   const links: Link[] = [
     { name: "discography", url: "" },
+    { name: "press kit", url: "/presskit" },
+
     { name: "spotify", url: "" },
     { name: "apple music", url: "" },
     { name: "bandcamp", url: "" },
@@ -25,7 +28,7 @@ export const Links: React.FC<StateProps> = (props) => {
 
     return (
       <li key={i}>
-        <a
+        <Link
           onClick={
             i == 0
               ? () => {
@@ -39,7 +42,7 @@ export const Links: React.FC<StateProps> = (props) => {
           className={"social-link cursor-pointer " + selectedClass}
         >
           {link.name}
-        </a>
+        </Link>
       </li>
     );
   });
