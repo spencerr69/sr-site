@@ -1,11 +1,11 @@
 "use client";
 
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import {Canvas, useFrame, useLoader} from "@react-three/fiber";
-import {OBJLoader} from "three/addons/loaders/OBJLoader.js";
-import {Screen} from "@/app/page";
-import {AsciiRenderer} from "@react-three/drei";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { Screen } from "@/app/page";
+import { AsciiRenderer } from "@react-three/drei";
 
 type Props = { currentScreen: Screen };
 
@@ -34,7 +34,7 @@ function CameraController({ currentScreen }: Props) {
 }
 
 function Planet() {
-  const obj = useLoader(OBJLoader, "/sr2pf.obj");
+  const obj = useLoader(OBJLoader, "/sr2pbf.obj");
   const planetRef = useRef<THREE.Object3D>(null);
 
   useEffect(() => {
