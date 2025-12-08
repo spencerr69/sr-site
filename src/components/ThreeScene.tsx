@@ -34,7 +34,7 @@ function CameraController({ currentScreen }: Props) {
 }
 
 function Planet() {
-  const obj = useLoader(OBJLoader, "/sr2planethq.obj");
+  const obj = useLoader(OBJLoader, "/sr2pf.obj");
   const planetRef = useRef<THREE.Object3D>(null);
 
   useEffect(() => {
