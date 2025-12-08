@@ -79,9 +79,9 @@ function Stars() {
       star.position.x += Math.sin(timer * Math.random() * 0.00005) * 0.1;
       star.position.y += Math.sin(timer * Math.random() * 0.00005) * 0.1;
       star.position.z += Math.sin(timer * Math.random() * 0.00005) * 0.1;
-      if (star.position.x > 500) star.position.x = -900;
-      if (star.position.y > 300) star.position.y = -900;
-      if (star.position.z > 300) star.position.z = -900;
+      if (star.position.x > 600) star.position.x = -1300;
+      if (star.position.y > 600) star.position.y = -1300;
+      if (star.position.z > 600) star.position.z = -1300;
     });
   });
 
@@ -95,7 +95,7 @@ function Stars() {
             if (el) refs.current[i] = el;
           }}
         >
-          <sphereGeometry args={[2, 2, 2]} />
+          <sphereGeometry args={[4, 4, 4]} />
           <meshBasicMaterial color={0xffffff} />
         </mesh>
       ))}
