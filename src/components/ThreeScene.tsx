@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef} from "react";
 import * as THREE from "three";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { AsciiRenderer } from "@react-three/drei";
-import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
-import { Screen } from "@/app/page";
+import {Canvas, useFrame, useLoader} from "@react-three/fiber";
+import {OBJLoader} from "three/addons/loaders/OBJLoader.js";
+import {Screen} from "@/app/page";
+import {AsciiRenderer} from "@react-three/drei";
 
 type Props = { currentScreen: Screen };
 
@@ -25,14 +25,16 @@ function CameraController({ currentScreen }: Props) {
   }, [currentScreen]);
 
   useFrame(({ camera }) => {
-    camera.position.lerp(target.current, 0.05);
+    camera.position.lerp(target.current, 0.01);
+    camera.rotation.x = camera.position.x / 200;
+    camera.rotation.y = camera.position.y / 200;
     camera.updateProjectionMatrix();
   });
   return null;
 }
 
 function Planet() {
-  const obj = useLoader(OBJLoader, "/sr2planet.obj");
+  const obj = useLoader(OBJLoader, "/sr2planethq.obj");
   const planetRef = useRef<THREE.Object3D>(null);
 
   useEffect(() => {
@@ -79,9 +81,9 @@ function Stars() {
       star.position.x += Math.sin(timer * Math.random() * 0.00005) * 0.1;
       star.position.y += Math.sin(timer * Math.random() * 0.00005) * 0.1;
       star.position.z += Math.sin(timer * Math.random() * 0.00005) * 0.1;
-      if (star.position.x > 600) star.position.x = -1300;
-      if (star.position.y > 600) star.position.y = -1300;
-      if (star.position.z > 600) star.position.z = -1300;
+      if (star.position.x > 2000) star.position.x = -1000;
+      if (star.position.y > 2000) star.position.y = -1000;
+      if (star.position.z > 2000) star.position.z = -1000;
     });
   });
 
@@ -111,7 +113,7 @@ const ThreeScene: React.FC<Props> = ({ currentScreen }) => {
           fov: 70,
           near: 1,
           far: 10000,
-          position: [0, 0, 100],
+          position: [0, 0, 500],
           rotation: [0, 0, 0],
         }}
         style={{ position: "absolute", inset: 0 }}
