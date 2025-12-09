@@ -1,10 +1,10 @@
 "use client";
 
-import ThreeScene from "@/components/ThreeScene";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Links } from "@/components/Links";
 import { Discog } from "@/components/Discog";
 import { QueryClient, QueryClientProvider } from "react-query";
+import FiberScene from "@/components/FiberScene";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +34,7 @@ export default function Home() {
     <main>
       <QueryClientProvider client={queryClient}>
         <div className="container">
-          <ThreeScene currentScreen={currentScreen} />
+          <FiberScene currentScreen={currentScreen} />
 
           {currentScreen == Screen.Home && <Links {...stateProps} />}
           {currentScreen == Screen.Discog && <Discog {...stateProps} />}
