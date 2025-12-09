@@ -1,9 +1,9 @@
-import { Screen } from "@/app/page";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import React, { useEffect, useRef } from "react";
+import {Screen} from "@/app/page";
+import {Canvas, useFrame, useLoader} from "@react-three/fiber";
+import React, {useEffect, useRef} from "react";
 import * as THREE from "three";
-import { AsciiRenderer } from "@react-three/drei";
-import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import {AsciiRenderer} from "@react-three/drei";
+import {OBJLoader} from "three/addons/loaders/OBJLoader.js";
 
 type Props = { currentScreen: Screen };
 
@@ -38,7 +38,7 @@ const CameraController = ({ currentScreen }: Props) => {
     camera.updateProjectionMatrix();
   });
 
-  return null;
+  return <></>;
 };
 
 const Stars = () => {
@@ -47,9 +47,9 @@ const Stars = () => {
   const count = 100;
   const positions = new Array(count).fill(0).map(() => {
     return new THREE.Vector3(
-      random() * 2000 - 1000,
-      random() * 2000 - 1000,
-      random() * 2000 - 1000,
+      random() * 1000 - 500,
+      random() * 1000 - 500,
+      random() * 1000 - 500,
     );
   });
 
@@ -60,7 +60,7 @@ const Stars = () => {
     if (!refs.current) return;
     refs.current.forEach((star) => {
       if (!star) return;
-      const scale = Math.sin(start * 0.0007) * 0.1 + 0.9;
+      const scale = Math.sin(start * 0.0007) * 0.1 + 1.0;
       star.scale.set(scale, scale, scale);
 
       const movement = Math.sin(start * Math.random() * 0.00005) * 0.01;
@@ -68,9 +68,9 @@ const Stars = () => {
       star.position.y += movement;
       star.position.z += movement;
 
-      if (star.position.x > 2000) star.position.x = -1000;
-      if (star.position.y > 2000) star.position.y = -1000;
-      if (star.position.z > 2000) star.position.z = -1000;
+      if (star.position.x > 500) star.position.x = -500;
+      if (star.position.y > 500) star.position.y = -500;
+      if (star.position.z > 500) star.position.z = -500;
     });
   });
 
@@ -99,6 +99,7 @@ const Planet = () => {
   useEffect(() => {
     if (!planet.current) return;
     planet.current.scale.set(30, 30, 30);
+    planet.current.position.set(0, 0, 0);
     planet.current.rotation.x = 0.5;
     planet.current.rotation.z = 0.2;
   }, []);
@@ -121,7 +122,7 @@ const FiberScene: React.FC<Props> = ({ currentScreen }) => {
         camera={{
           fov: 70,
           near: 1,
-          far: 10000,
+          far: 1000,
           position: [0, 0, 500],
           rotation: [0, 0, 0],
         }}
