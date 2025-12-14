@@ -1,9 +1,9 @@
-import {Screen} from "@/app/page";
-import {Canvas, useFrame, useLoader} from "@react-three/fiber";
-import React, {useEffect, useRef} from "react";
+import { Screen } from "@/components/App";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import {AsciiRenderer} from "@react-three/drei";
-import {OBJLoader} from "three/addons/loaders/OBJLoader.js";
+import { AsciiRenderer } from "@react-three/drei";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 
 type Props = { currentScreen: Screen };
 

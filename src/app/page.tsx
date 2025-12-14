@@ -1,45 +1,13 @@
-"use client";
+import App from "@/components/App";
+import {client} from "@/sanity/lib/client";
+import {RELEASES_QUERY} from "@/sanity/lib/queries";
 
-import { Dispatch, SetStateAction, useState } from "react";
-import { Links } from "@/components/Links";
-import { Discog } from "@/components/Discog";
-import { QueryClient, QueryClientProvider } from "react-query";
-import FiberScene from "@/components/FiberScene";
-
-const queryClient = new QueryClient();
-
-export type StateProps = {
-  screenSetter: Dispatch<SetStateAction<Screen>>;
-  selectionSetter: Dispatch<SetStateAction<number>>;
-  selected: number;
-};
-
-export enum Screen {
-  Home,
-  Discog,
-}
-
-export default function Home() {
-  const [currentScreen, setCurrentScreen] = useState(Screen.Home);
-
-  const [currentSelection, setCurrentSelection] = useState(0);
-
-  const stateProps: StateProps = {
-    screenSetter: setCurrentScreen,
-    selectionSetter: setCurrentSelection,
-    selected: currentSelection,
-  };
+export default async function Home() {
+  const discogResults = await client.fetch(RELEASES_QUERY);
 
   return (
-    <main>
-      <QueryClientProvider client={queryClient}>
-        <div className="container">
-          <FiberScene currentScreen={currentScreen} />
-
-          {currentScreen == Screen.Home && <Links {...stateProps} />}
-          {currentScreen == Screen.Discog && <Discog {...stateProps} />}
-        </div>
-      </QueryClientProvider>
-    </main>
+    <>
+      <App discogResults={discogResults} />
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { Screen, StateProps } from "@/app/page";
+import { Screen, StateProps } from "@/components/App";
 import React from "react";
 import Link from "next/link";
 
@@ -38,7 +38,7 @@ export const Links: React.FC<StateProps> = (props) => {
               : () => {}
           }
           onMouseOver={onMouseOverGetter(i)}
-          href={link.url ? link.url : "#"}
+          href={link.url || "#"}
           className={"social-link cursor-pointer " + selectedClass}
         >
           {link.name}
