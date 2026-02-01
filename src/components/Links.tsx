@@ -1,26 +1,19 @@
 import { Screen, StateProps } from "@/components/App";
 import React from "react";
-import Link from "next/link";
+import NextLink from "next/link";
+import { Link } from "@/lib/definitions";
 
 export const Links: React.FC<StateProps> = (props) => {
   const onMouseOverGetter = (key: number) => () => props.selectionSetter(key);
 
-  type Link = {
-    name: string;
-    url: string;
-  };
-
   const links: Link[] = [
     { name: "discography", url: "" },
     { name: "press kit", url: "/presskit" },
-
-    { name: "spotify", url: "" },
-    { name: "apple music", url: "" },
-    { name: "bandcamp", url: "" },
-    { name: "soundcloud", url: "" },
-    { name: "twitter", url: "" },
-    { name: "instagram", url: "" },
-    { name: "youtube", url: "" },
+    ...props.artistResults.links
+      .map((link) => {
+        return { ...link, name: link.name.toLowerCase() };
+      })
+      .filter(({ name }) => name !== "website"),
   ];
 
   const liItems = links.map((link, i) => {
@@ -28,7 +21,7 @@ export const Links: React.FC<StateProps> = (props) => {
 
     return (
       <li key={i}>
-        <Link
+        <NextLink
           onClick={
             i == 0
               ? () => {
@@ -42,7 +35,7 @@ export const Links: React.FC<StateProps> = (props) => {
           className={"social-link cursor-pointer " + selectedClass}
         >
           {link.name}
-        </Link>
+        </NextLink>
       </li>
     );
   });

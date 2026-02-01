@@ -1,38 +1,34 @@
 import { DiscogProps, Screen } from "@/components/App";
+import { Release } from "@/lib/definitions";
 import Image from "next/image";
-import { RELEASES_QUERYResult } from "@/sanity/sanity.types";
-import { urlFor } from "@/sanity/lib/image";
-
-const BASE_LINK_URL = "https://link.spencerraymon.de/";
+import React from "react";
 
 export const Discog: React.FC<DiscogProps> = (props) => {
   const onMouseOverGetter = (key: number) => () => props.selectionSetter(key);
 
   const data = props.discogResults;
 
-  const releases = data as RELEASES_QUERYResult;
+  const releases = data as Release[];
 
   const releasesZipped = releases.map((release, i) => {
     const selectedClass = props.selected == i + 1 ? "selected-link" : "";
 
-    let releaseType = "";
+    let releaseType;
 
-    if (typeof release.trackCount == "number") {
-      if (release.trackCount == 1) {
-        releaseType = "single";
-      } else if (release.trackCount < 7) {
-        releaseType = "ep";
-      } else {
-        releaseType = "album";
-      }
+    if (release.track_count == 1) {
+      releaseType = "single";
+    } else if (release.track_count < 7) {
+      releaseType = "ep";
+    } else {
+      releaseType = "album";
     }
 
-    if (release.albumArt?.asset == null) return [<></>, <></>];
+    if (release.artwork === "") return [<></>, <></>];
 
-    const image = urlFor(release.albumArt).width(750).url();
+    const image = release.artwork || "";
 
     return [
-      <li key={release._id} className={"mb-5"}>
+      <li key={release.upc} className={"mb-5"}>
         <div
           className={
             "release  bg-gray-900 p-2 border-dotted border-2  discog-card discog-link " +
@@ -40,16 +36,16 @@ export const Discog: React.FC<DiscogProps> = (props) => {
           }
         >
           <a
-            href={BASE_LINK_URL + release.slug?.current}
+            href={release.self_url || ""}
             onMouseOver={onMouseOverGetter(i + 1)}
             className={" cursor-pointer discog-link "}
           >
             <h2 className={"font-bold text-xl"}>{release.title}</h2>
-            <p>{release.releaseDate}</p>
+            <p>{release.release_date}</p>
             <p>{releaseType}</p>
 
             <p className={"align-bottom text-right text-gray-500"}>
-              {release.stockNumber}
+              {release.upc}
             </p>
           </a>
         </div>
@@ -87,12 +83,16 @@ export const Discog: React.FC<DiscogProps> = (props) => {
   });
 
   return (
-    <div className={"flex flex-row content-end justify-between w-dvw h-screen"}>
-      <div className="leftArea m-15 min-w-1/2 max-w-5xl w-2/2 lg:w-3/5">
+    <div
+      className={
+        "flex flex-row content-end justify-between w-dvw max-h-screen overflow-hidden"
+      }
+    >
+      <div className="leftArea m-15 min-w-1/2 max-w-xl w-2/2 lg:w-3/5 overflow-auto ">
         <h1 className={"text-white font-mono font-bold text-3xl"}>
           spencer raymond
         </h1>
-        <div className="text-white font-mono text-sm font-light">
+        <div className="text-white font-mono text-sm font-light  ">
           {/*  back button  */}
           <a
             onMouseOver={onMouseOverGetter(0)}
@@ -109,7 +109,7 @@ export const Discog: React.FC<DiscogProps> = (props) => {
           </a>
           {}
 
-          <ul className={"mt-10"}>
+          <ul className={"mt-10 overflow-auto max-h-4xl "}>
             {/*   releases */}
             {releasesLis}
           </ul>

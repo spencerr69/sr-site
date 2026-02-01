@@ -1,13 +1,14 @@
+import { getArtist } from "@/actions/artist";
+import { getDiscog } from "@/actions/discog";
 import App from "@/components/App";
-import {client} from "@/sanity/lib/client";
-import {RELEASES_QUERY} from "@/sanity/lib/queries";
 
 export default async function Home() {
-  const discogResults = await client.fetch(RELEASES_QUERY);
+  const discogResults = await getDiscog();
+  const artistResults = await getArtist();
 
   return (
     <>
-      <App discogResults={discogResults} />
+      <App discogResults={discogResults} artistResults={artistResults} />
     </>
   );
 }
