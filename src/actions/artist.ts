@@ -1,8 +1,9 @@
 "use server";
 
 import { Artist } from "@/lib/definitions";
+import { cache } from "react";
 
-export const getArtist = async (): Promise<Artist> => {
+export const getArtist = cache(async (): Promise<Artist> => {
   const res = await fetch("https://api.linkr.audio/artists/sr", {});
 
   if (!res.ok) {
@@ -10,4 +11,4 @@ export const getArtist = async (): Promise<Artist> => {
   }
 
   return await res.json();
-};
+});
