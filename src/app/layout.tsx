@@ -16,7 +16,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
   const release = await getRecentRelease();
 
-  const socialImage = `https://spencerraymon.de/${cloudflareLoader({
+  const socialImage = `https://spencerraymon.de${cloudflareLoader({
     src: release.artwork || "",
     width: 500,
     quality: 80,
