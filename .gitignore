@@ -48,3 +48,4 @@ next-env.d.ts
 .sanity
 /.idea/discord.xml
 /.idea/git_toolbox_prj.xml
+/.idea/
