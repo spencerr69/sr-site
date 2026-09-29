@@ -4,8 +4,8 @@ this my site built with nextjs
 
 install:
 ```
-pnpm install
-pnpm dev
+bun install
+bun dev
 ```
 
 and have fun

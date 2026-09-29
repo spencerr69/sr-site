@@ -4,7 +4,7 @@ import { Artist, Release } from "@/lib/definitions";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Links } from "@/components/Links";
 import { Discog } from "@/components/Discog";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import FiberScene from "@/components/FiberScene";
 
 const queryClient = new QueryClient();
