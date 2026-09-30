@@ -1,7 +1,6 @@
 import { Heading } from "@/components/Heading";
 import { type Artist, type Link } from "@/lib/definitions";
 import NextLink from "next/link";
-import React from "react";
 
 export function Links({ artist }: { artist: Artist }) {
   const links: Link[] = [
