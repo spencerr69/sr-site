@@ -1,17 +1,13 @@
-import { type StateProps } from "@/components/App";
-import { type Link } from "@/lib/definitions";
+import { Heading } from "@/components/Heading";
+import { type Artist, type Link } from "@/lib/definitions";
 import NextLink from "next/link";
 import React from "react";
 
-export const Links: React.FC<StateProps> = (props) => {
-  const onMouseOverGetter = (key: number) => () => {
-    props.selectionSetter(key);
-  };
-
+export function Links({ artist }: { artist: Artist }) {
   const links: Link[] = [
-    { name: "discography", url: "" },
+    { name: "music", url: "/music" },
     { name: "press kit", url: "/presskit" },
-    ...props.artistResults.links
+    ...artist.links
       .map((link) => {
         return { ...link, name: link.name.toLowerCase() };
       })
@@ -19,25 +15,9 @@ export const Links: React.FC<StateProps> = (props) => {
   ];
 
   const liItems = links.map((link, i) => {
-    const selectedClass = props.selected === i ? "selected-link" : "";
-
     return (
       <li key={i}>
-        <NextLink
-          onClick={
-            i == 0
-              ? () => {
-                  props.screenSetter("music");
-                  props.selectionSetter(0);
-                }
-              : () => {
-                  /* empty */
-                }
-          }
-          onMouseOver={onMouseOverGetter(i)}
-          href={link.url || "#"}
-          className={"social-link cursor-pointer " + selectedClass}
-        >
+        <NextLink href={link.url || "#"} className={"nav-link "}>
           {link.name}
         </NextLink>
       </li>
@@ -46,18 +26,10 @@ export const Links: React.FC<StateProps> = (props) => {
 
   return (
     <>
-      <div className="leftArea m-15">
-        <h1
-          className={
-            "text-white font-mono font-bold text-3xl focus:outline-none"
-          }
-        >
-          spencer raymond
-        </h1>
-        <div className="text-white font-mono text-sm font-light">
-          <ul>{liItems}</ul>
-        </div>
+      <Heading>spencer raymond</Heading>
+      <div className="text-white font-mono text-sm font-light">
+        <ul>{liItems}</ul>
       </div>
     </>
   );
-};
+}

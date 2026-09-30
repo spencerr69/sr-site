@@ -7,7 +7,7 @@ export default function SiteLayout({ children }: PropsWithChildren) {
     <>
       <Scene />
       <RouteFocus />
-      <main>{children}</main>
+      <main className={"m-15"}>{children}</main>
     </>
   );
 }

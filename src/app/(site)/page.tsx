@@ -1,14 +1,12 @@
-import App from "@/components/App";
-import { getArtist, getReleases } from "@/lib/api";
+import { Links } from "@/components/Links";
+import { getArtist } from "@/lib/api";
 
 export default async function Home() {
-  const releases = getReleases();
-  const artist = getArtist();
-  const [discogResults, artistResults] = await Promise.all([releases, artist]);
+  const [artist] = await Promise.all([getArtist()]);
 
   return (
     <>
-      <App discogResults={discogResults} artistResults={artistResults} />
+      <Links artist={artist} />
     </>
   );
 }

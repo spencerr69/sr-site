@@ -25,7 +25,6 @@
 body {
     background: var(--background);
     color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .asciiEffect {
@@ -35,34 +34,30 @@ body {
     z-index: -1;
 }
 
-.selected-link.social-link {
-    @apply italic;
+.release:hover {
+    @apply border-white;
 }
 
 .release {
     @apply border-gray-500;
     transition: 0.1s;
-}
-
-.release:hover {
-    @apply border-white;
 
 }
 
-.selected-link.social-link::before {
+.nav-link {
+    position: relative;
+}
+
+.nav-link:hover, .nav-link:focus-visible {
+    @apply italic;
+}
+
+.nav-link:hover::before,
+.nav-link:focus-visible::before {
     content: "> ";
-    @apply not-italic;
-    @apply font-bold;
     position: absolute;
-    transform: translateX(-200%);
-}
-
-.selected-link.discog-link::before {
-    content: "> ";
-    @apply not-italic;
-    @apply font-bold;
-    position: absolute;
-    transform: translateX(-310%) translateY(25%);
+    left: -1em;
+    font-weight: 700;
 }
 
 blockquote {
