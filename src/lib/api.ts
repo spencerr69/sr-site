@@ -11,7 +11,7 @@ async function get<T>(path: string): Promise<T> {
   if (!res.ok) {
     throw new Error(`linkr ${path} responded: ${res.status}`);
   }
-  return (await res.json()) as T;
+  return await res.json();
 }
 
 export async function getArtist(): Promise<Artist> {
@@ -27,9 +27,7 @@ export async function getReleases(): Promise<Release[]> {
 }
 
 export async function getRecentRelease(): Promise<Release> {
-  const [first] = await get<Release[]>("/releases/sr?limit=1");
-  if (!first) {
-    throw new Error("No releases found in linkr for artist sr");
-  }
+  const [first] = await getReleases();
+  if (!first) throw new Error("No releases found in linkr for artist sr");
   return first;
 }

@@ -1,59 +1,55 @@
-import { Screen, type StateProps } from "@/components/App";
-import React from "react";
+import { ExitLink } from "@/components/ExitLink";
+import { Heading } from "@/components/Heading";
+import type { Artist, Release } from "@/lib/definitions";
 import NextLink from "next/link";
-import { type Link } from "@/lib/definitions";
 
-export const Links: React.FC<StateProps> = (props) => {
-  const onMouseOverGetter = (key: number) => () => {
-    props.selectionSetter(key);
-  };
+// block + py-3 makes each row 44px tall on phones (20px line + 24px padding); lg:py-0 keeps desktop tight
+const ROW = "nav-link block py-3 lg:py-0";
 
-  const links: Link[] = [
-    { name: "discography", url: "" },
-    { name: "press kit", url: "/presskit" },
-    ...props.artistResults.links
-      .map((link) => {
-        return { ...link, name: link.name.toLowerCase() };
-      })
-      .filter(({ name }) => name !== "website"),
-  ];
-
-  const liItems = links.map((link, i) => {
-    const selectedClass = props.selected === i ? "selected-link" : "";
-
-    return (
-      <li key={i}>
-        <NextLink
-          onClick={
-            i == 0
-              ? () => {
-                  props.screenSetter(Screen.Discog);
-                  props.selectionSetter(0);
-                }
-              : () => {
-                  /* empty */
-                }
-          }
-          onMouseOver={onMouseOverGetter(i)}
-          href={link.url || "#"}
-          className={"social-link cursor-pointer " + selectedClass}
-        >
-          {link.name}
-        </NextLink>
-      </li>
-    );
-  });
+export function Links({ artist, latest }: { artist: Artist; latest: Release }) {
+  const socials = artist.links
+    .map((link) => ({ ...link, name: link.name.toLowerCase() }))
+    .filter(({ name }) => name !== "website");
 
   return (
     <>
-      <div className="leftArea m-15">
-        <h1 className={"text-white font-mono font-bold text-3xl"}>
-          spencer raymond
-        </h1>
-        <div className="text-white font-mono text-sm font-light">
-          <ul>{liItems}</ul>
-        </div>
-      </div>
+      <Heading>spencer raymond</Heading>
+      <nav className=" font-mono text-sm font-light">
+        <ul>
+          <li>
+            {latest.self_url ? (
+              <ExitLink href={latest.self_url} className={ROW}>
+                new: {latest.title} &gt;
+              </ExitLink>
+            ) : (
+              <span className="block py-3 lg:py-0">new: {latest.title} →</span>
+            )}
+          </li>
+          <li>
+            <NextLink href="/music" className={ROW}>
+              music
+            </NextLink>
+          </li>
+        </ul>
+        <ul className="mt-6">
+          <li>
+            <NextLink href="/presskit" className={ROW}>
+              press kit
+            </NextLink>
+          </li>
+        </ul>
+        {socials.length > 0 && (
+          <ul className="mt-6">
+            {socials.map((link) => (
+              <li key={link.url}>
+                <a href={link.url} className={ROW}>
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </nav>
     </>
   );
-};
+}
