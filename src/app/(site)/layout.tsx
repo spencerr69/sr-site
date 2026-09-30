@@ -1,5 +1,5 @@
 import { RouteFocus } from "@/components/RouteFocus";
-import { Scene } from "@/components/Scene";
+import { Scene } from "@/components/scene/Scene";
 import type { PropsWithChildren } from "react";
 
 export default function SiteLayout({ children }: PropsWithChildren) {

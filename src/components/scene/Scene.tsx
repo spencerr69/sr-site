@@ -7,7 +7,7 @@ export type SceneView = "home" | "music";
 export const viewForPath = (pathname: string): SceneView =>
   pathname === "/music" || pathname.startsWith("/music/") ? "music" : "home";
 
-const FiberScene = dynamic(() => import("@/components/FiberScene"), {
+const FiberScene = dynamic(() => import("@/components/scene/FiberScene"), {
   ssr: false,
 });
 
