@@ -1,7 +1,7 @@
-import { Screen, type StateProps } from "@/components/App";
-import React from "react";
-import NextLink from "next/link";
+import { type StateProps } from "@/components/App";
 import { type Link } from "@/lib/definitions";
+import NextLink from "next/link";
+import React from "react";
 
 export const Links: React.FC<StateProps> = (props) => {
   const onMouseOverGetter = (key: number) => () => {
@@ -27,7 +27,7 @@ export const Links: React.FC<StateProps> = (props) => {
           onClick={
             i == 0
               ? () => {
-                  props.screenSetter(Screen.Discog);
+                  props.screenSetter("music");
                   props.selectionSetter(0);
                 }
               : () => {
@@ -47,7 +47,11 @@ export const Links: React.FC<StateProps> = (props) => {
   return (
     <>
       <div className="leftArea m-15">
-        <h1 className={"text-white font-mono font-bold text-3xl"}>
+        <h1
+          className={
+            "text-white font-mono font-bold text-3xl focus:outline-none"
+          }
+        >
           spencer raymond
         </h1>
         <div className="text-white font-mono text-sm font-light">

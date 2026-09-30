@@ -1,4 +1,4 @@
-import { type DiscogProps, Screen } from "@/components/App";
+import { type DiscogProps } from "@/components/App";
 import Image from "next/image";
 import React from "react";
 
@@ -88,7 +88,11 @@ export const Discog: React.FC<DiscogProps> = (props) => {
       }
     >
       <div className="leftArea m-15 min-w-1/2 max-w-xl w-2/2 lg:w-3/5 overflow-auto ">
-        <h1 className={"text-white font-mono font-bold text-3xl"}>
+        <h1
+          className={
+            "text-white font-mono font-bold text-3xl  focus:outline-none"
+          }
+        >
           spencer raymond
         </h1>
         <div className="text-white font-mono text-sm font-light  ">
@@ -96,7 +100,7 @@ export const Discog: React.FC<DiscogProps> = (props) => {
           <a
             onMouseOver={onMouseOverGetter(0)}
             onClick={() => {
-              props.screenSetter(Screen.Home);
+              props.screenSetter("home");
               props.selectionSetter(0);
             }}
             className={

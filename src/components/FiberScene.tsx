@@ -1,11 +1,16 @@
-import { Screen } from "@/components/App";
+import type { SceneView } from "@/components/Scene";
+import { AsciiRenderer } from "@react-three/drei";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { AsciiRenderer } from "@react-three/drei";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 
-type Props = { currentScreen: Screen };
+type Props = { view: SceneView };
+
+const TARGETS = {
+  home: new THREE.Vector3(0, 0, 500),
+  music: new THREE.Vector3(-50, 50, 150),
+} as const;
 
 const pseudorandom = (i: number) => {
   let seed = i;
@@ -15,21 +20,8 @@ const pseudorandom = (i: number) => {
   };
 };
 
-const CameraController = ({ currentScreen }: Props) => {
-  // Not actually sure if this will work without ref and useeffect but we shall see
-
-  const target = new THREE.Vector3(0, 0, 500);
-
-  // useEffect(() => {
-  switch (currentScreen) {
-    case Screen.Discog:
-      target.set(-50, 50, 150);
-      break;
-    case Screen.Home:
-      target.set(0, 0, 500);
-      break;
-  }
-  // }, []);
+const CameraController = ({ view }: Props) => {
+  const target = TARGETS[view];
 
   useFrame(({ camera }) => {
     camera.position.lerp(target, 0.03);
@@ -113,15 +105,18 @@ const Planet = () => {
   return <primitive ref={planet} object={obj} />;
 };
 
-const FiberScene: React.FC<Props> = ({ currentScreen }) => {
+const FiberScene: React.FC<Props> = ({ view }) => {
   return (
-    <div className={"fixed inset-0 asciiEffect font-mono bg-gray-950"}>
+    <div
+      className={"fixed inset-0 asciiEffect font-mono bg-gray-950"}
+      aria-hidden
+    >
       <Canvas
         camera={{
           fov: 70,
           near: 1,
           far: 1000,
-          position: [0, 0, 500],
+          position: TARGETS[view].toArray(),
           rotation: [0, 0, 0],
         }}
         className={"absolute inset-0"}
@@ -134,7 +129,7 @@ const FiberScene: React.FC<Props> = ({ currentScreen }) => {
         <Planet />
         <Stars />
 
-        <CameraController currentScreen={currentScreen} />
+        <CameraController view={view} />
 
         <AsciiRenderer
           invert

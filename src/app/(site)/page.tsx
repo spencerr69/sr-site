@@ -1,5 +1,5 @@
 import App from "@/components/App";
-import { getReleases, getArtist } from "@/lib/api";
+import { getArtist, getReleases } from "@/lib/api";
 
 export default async function Home() {
   const releases = getReleases();

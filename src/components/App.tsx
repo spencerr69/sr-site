@@ -1,32 +1,27 @@
 "use client";
 
-import type { Artist, Release } from "@/lib/definitions";
-import { type Dispatch, type SetStateAction, useState } from "react";
-import { Links } from "@/components/Links";
 import { Discog } from "@/components/Discog";
+import { Links } from "@/components/Links";
+import type { SceneView } from "@/components/Scene";
+import type { Artist, Release } from "@/lib/definitions";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import FiberScene from "@/components/FiberScene";
+import { type Dispatch, type SetStateAction, useState } from "react";
 
 const queryClient = new QueryClient();
 
 export type StateProps = {
   artistResults: Artist;
-  screenSetter: Dispatch<SetStateAction<Screen>>;
+  screenSetter: Dispatch<SetStateAction<SceneView>>;
   selectionSetter: Dispatch<SetStateAction<number>>;
   selected: number;
 };
 
 export type DiscogProps = {
   discogResults: Release[];
-  screenSetter: Dispatch<SetStateAction<Screen>>;
+  screenSetter: Dispatch<SetStateAction<SceneView>>;
   selectionSetter: Dispatch<SetStateAction<number>>;
   selected: number;
 };
-
-export enum Screen {
-  Home,
-  Discog,
-}
 
 export default function App({
   discogResults,
@@ -35,7 +30,7 @@ export default function App({
   discogResults: Release[];
   artistResults: Artist;
 }) {
-  const [currentScreen, setCurrentScreen] = useState(Screen.Home);
+  const [currentScreen, setCurrentScreen] = useState<SceneView>("home");
 
   const [currentSelection, setCurrentSelection] = useState(0);
 
@@ -50,10 +45,8 @@ export default function App({
     <main>
       <QueryClientProvider client={queryClient}>
         <div className="container">
-          <FiberScene currentScreen={currentScreen} />
-
-          {currentScreen == Screen.Home && <Links {...stateProps} />}
-          {currentScreen == Screen.Discog && (
+          {currentScreen == "home" && <Links {...stateProps} />}
+          {currentScreen == "music" && (
             <Discog {...stateProps} discogResults={discogResults} />
           )}
         </div>
