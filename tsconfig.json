@@ -34,7 +34,8 @@
     "allowUnusedLabels": false,
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "allowJs": true
   },
   "include": [
     "next-env.d.ts",

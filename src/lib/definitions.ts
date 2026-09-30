@@ -1,4 +1,4 @@
-import { components } from "@/lib/schema";
+import type { components } from "@/lib/schema";
 
 export type Release = components["schemas"]["Release"];
 export type Artist = components["schemas"]["Artist"];
