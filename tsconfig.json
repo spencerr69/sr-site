@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -23,16 +18,23 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "three/webgpu": [
-        "./node_modules/three/build/three.webgpu.js"
-      ],
-      "three/tsl": [
-        "./node_modules/three/build/three.tsl.js"
-      ]
-    }
+      "@/*": ["./src/*"],
+      "three/webgpu": ["./node_modules/three/build/three.webgpu.js"],
+      "three/tsl": ["./node_modules/three/build/three.tsl.js"]
+    },
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "noUncheckedSideEffectImports": true
   },
   "include": [
     "next-env.d.ts",
@@ -42,7 +44,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

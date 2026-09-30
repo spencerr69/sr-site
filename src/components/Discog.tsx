@@ -1,14 +1,13 @@
-import { DiscogProps, Screen } from "@/components/App";
-import { Release } from "@/lib/definitions";
+import { type DiscogProps, Screen } from "@/components/App";
 import Image from "next/image";
 import React from "react";
 
 export const Discog: React.FC<DiscogProps> = (props) => {
-  const onMouseOverGetter = (key: number) => () => props.selectionSetter(key);
+  const onMouseOverGetter = (key: number) => () => {
+    props.selectionSetter(key);
+  };
 
-  const data = props.discogResults;
-
-  const releases = data as Release[];
+  const releases = props.discogResults;
 
   const releasesZipped = releases.map((release, i) => {
     const selectedClass = props.selected == i + 1 ? "selected-link" : "";
@@ -25,7 +24,7 @@ export const Discog: React.FC<DiscogProps> = (props) => {
 
     if (release.artwork === "") return [<></>, <></>];
 
-    const image = release.artwork || "";
+    const image = release.artwork ?? "";
 
     return [
       <li key={release.upc} className={"mb-5"}>
@@ -36,7 +35,7 @@ export const Discog: React.FC<DiscogProps> = (props) => {
           }
         >
           <a
-            href={release.self_url || ""}
+            href={release.self_url ?? ""}
             onMouseOver={onMouseOverGetter(i + 1)}
             className={" cursor-pointer discog-link "}
           >

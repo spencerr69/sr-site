@@ -1,4 +1,4 @@
-import { getRecentRelease } from "@/actions/discog";
+import { getRecentRelease } from "@/lib/api";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
@@ -39,7 +39,7 @@ const PressKit: React.FC = async () => {
         </blockquote>
       </div>
       <Image
-        src={recentRelease.artwork || "https://linkr.audio/images?image=test"}
+        src={recentRelease.artwork ?? "https://linkr.audio/images?image=test"}
         className={"mt-4"}
         alt={"Spencer Raymond"}
         width={750}

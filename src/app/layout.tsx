@@ -1,8 +1,9 @@
-import { getRecentRelease } from "@/actions/discog";
+import { getRecentRelease } from "@/lib/api";
 import cloudflareLoader from "@/lib/imageLoader";
 import type { Metadata } from "next";
 import { Chivo_Mono } from "next/font/google";
 import "./globals.css";
+import React from "react";
 
 const chivoMono = Chivo_Mono({
   variable: "--font-chivo-mono",
@@ -17,7 +18,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
   const release = await getRecentRelease();
 
   const socialImage = `https://spencerraymon.de${cloudflareLoader({
-    src: release.artwork || "",
+    src: release.artwork ?? "",
     width: 500,
     quality: 80,
   })}`;
@@ -68,6 +69,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export default async function RootLayout({
   children,
 }: Readonly<{

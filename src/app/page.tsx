@@ -1,10 +1,10 @@
-import { getArtist } from "@/actions/artist";
-import { getDiscog } from "@/actions/discog";
 import App from "@/components/App";
+import { getReleases, getArtist } from "@/lib/api";
 
 export default async function Home() {
-  const discogResults = await getDiscog();
-  const artistResults = await getArtist();
+  const releases = getReleases();
+  const artist = getArtist();
+  const [discogResults, artistResults] = await Promise.all([releases, artist]);
 
   return (
     <>

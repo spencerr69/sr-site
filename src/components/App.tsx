@@ -1,7 +1,7 @@
 "use client";
 
-import { Artist, Release } from "@/lib/definitions";
-import { Dispatch, SetStateAction, useState } from "react";
+import type { Artist, Release } from "@/lib/definitions";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { Links } from "@/components/Links";
 import { Discog } from "@/components/Discog";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

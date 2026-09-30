@@ -57,9 +57,7 @@ const Stars = () => {
 
   useFrame((state) => {
     const start = state.clock.elapsedTime * 1000; //seconds to ms
-    if (!refs.current) return;
     refs.current.forEach((star) => {
-      if (!star) return;
       const scale = Math.sin(start * 0.0007) * 0.1 + 1.0;
       star.scale.set(scale, scale, scale);
 

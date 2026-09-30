@@ -1,10 +1,12 @@
-import { Screen, StateProps } from "@/components/App";
+import { Screen, type StateProps } from "@/components/App";
 import React from "react";
 import NextLink from "next/link";
-import { Link } from "@/lib/definitions";
+import { type Link } from "@/lib/definitions";
 
 export const Links: React.FC<StateProps> = (props) => {
-  const onMouseOverGetter = (key: number) => () => props.selectionSetter(key);
+  const onMouseOverGetter = (key: number) => () => {
+    props.selectionSetter(key);
+  };
 
   const links: Link[] = [
     { name: "discography", url: "" },
@@ -28,7 +30,9 @@ export const Links: React.FC<StateProps> = (props) => {
                   props.screenSetter(Screen.Discog);
                   props.selectionSetter(0);
                 }
-              : () => {}
+              : () => {
+                  /* empty */
+                }
           }
           onMouseOver={onMouseOverGetter(i)}
           href={link.url || "#"}
