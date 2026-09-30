@@ -11,7 +11,7 @@ async function get<T>(path: string): Promise<T> {
   if (!res.ok) {
     throw new Error(`linkr ${path} responded: ${res.status}`);
   }
-  return (await res.json()) as T;
+  return await res.json();
 }
 
 export async function getArtist(): Promise<Artist> {

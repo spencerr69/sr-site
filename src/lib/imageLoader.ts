@@ -14,7 +14,7 @@ export default function cloudflareLoader({
     params.push(`quality=${quality}`);
   }
   if (process.env.NODE_ENV === "development") {
-    return `${src}?${params.join("&")}`;
+    return `https://spencerraymon.de/cdn-cgi/image/${params.join(",")}/${normalizeSrc(src)}`;
   }
   return `/cdn-cgi/image/${params.join(",")}/${normalizeSrc(src)}`;
 }
