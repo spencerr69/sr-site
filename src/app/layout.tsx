@@ -1,5 +1,6 @@
 import { getRecentRelease } from "@/lib/api";
 import cloudflareLoader from "@/lib/imageLoader";
+import { SITE_URL } from "@/lib/site";
 import type { Metadata } from "next";
 import { Chivo_Mono } from "next/font/google";
 import "./globals.css";
@@ -11,36 +12,32 @@ const chivoMono = Chivo_Mono({
 });
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const title = "Spencer Raymond";
   const description =
     "The official website of Spencer Raymond, from Naarm, Australia.";
 
   const release = await getRecentRelease();
 
-  const socialImage = `https://spencerraymon.de${cloudflareLoader({
-    src: release.artwork ?? "",
-    width: 500,
-    quality: 80,
-  })}`;
+  // relative in prod (/cdn-cgi/image/...), so metadataBase turns it into an absolute url
+  const socialImage = release.artwork
+    ? cloudflareLoader({ src: release.artwork, width: 500, quality: 80 })
+    : null;
 
   return {
-    title: title,
-    description: description,
-    alternates: {
-      canonical: "https://spencerraymon.de/",
-    },
+    metadataBase: new URL(SITE_URL),
+    title: { default: "Spencer Raymond", template: "%s | Spencer Raymond" },
+    description,
     openGraph: {
-      title: title,
-      description: description,
-      images: {
-        url: socialImage,
-        alt: "Spencer Raymond",
-        width: 500,
-        height: 500,
-      },
+      description,
+      ...(socialImage && {
+        images: {
+          url: socialImage,
+          alt: "Spencer Raymond",
+          width: 500,
+          height: 500,
+        },
+      }),
       siteName: "spencer raymond",
-      url: "https://spencerraymon.de/",
-      locale: "en-US",
+      locale: "en_AU",
       type: "website",
     },
     robots: {
@@ -58,11 +55,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
     },
     twitter: {
       card: "summary_large_image",
-      title: title,
-      description: description,
-      images: [{ url: socialImage }],
+      description,
+      ...(socialImage && { images: [{ url: socialImage }] }),
     },
-
     icons: {
       icon: "/icon.png",
     },
