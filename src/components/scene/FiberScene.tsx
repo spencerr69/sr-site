@@ -1,8 +1,9 @@
 import type { SceneView } from "@/components/scene/Scene";
 import { Stars } from "@/components/scene/Stars";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { AsciiRenderer } from "@react-three/drei";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import React, { Suspense, useRef } from "react";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import React, { Suspense, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 
@@ -13,18 +14,60 @@ const TARGETS = {
   music: new THREE.Vector3(-50, 50, 150),
 } as const;
 
-const CameraController = ({ view }: Props) => {
-  const target = TARGETS[view];
+const LAMBDA = 1.83; // 1 - e^(-1.83/60) ≈ 0.03: the old per-frame lerp at 60fps, now the same at any frame rate
+const PARALLAX = 5; // world units the camera drifts when the pointer is at the edge of the window
+const pointer = { x: 0, y: 0 }; // -1..1, written by the pointermove listener
+const goal = new THREE.Vector3();
 
-  useFrame(({ camera }) => {
-    camera.position.lerp(target, 0.03);
-    camera.rotation.x = camera.position.x / 200;
-    camera.rotation.y = camera.position.y / 200;
-    camera.updateProjectionMatrix();
+const aim = (camera: THREE.Camera) => {
+  camera.rotation.x = camera.position.x / 200;
+  camera.rotation.y = camera.position.y / 200;
+};
+
+function CameraController({
+  view,
+  motion,
+}: {
+  view: SceneView;
+  motion: boolean;
+}) {
+  const invalidate = useThree((state) => state.invalidate);
+  const size = useThree((state) => state.size);
+
+  // with frameloop="demand" nothing draws unless asked: redraw after a route change or a resize
+  useEffect(() => {
+    invalidate();
+  }, [view, size, invalidate]);
+
+  useEffect(() => {
+    if (!motion || !window.matchMedia("(pointer: fine)").matches) return;
+    const onMove = (e: PointerEvent) => {
+      pointer.x = 1 - (e.clientX / window.innerWidth) * 2;
+      pointer.y = 1 - (e.clientY / window.innerHeight) * 2;
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      pointer.x = 0;
+      pointer.y = 0;
+    };
+  }, [motion]);
+
+  useFrame(({ camera }, delta) => {
+    goal.copy(TARGETS[view]);
+    if (!motion) {
+      camera.position.copy(goal);
+      aim(camera);
+      return;
+    }
+    goal.x += pointer.y * PARALLAX;
+    goal.y += pointer.x * PARALLAX;
+    camera.position.lerp(goal, 1 - Math.exp(-LAMBDA * delta));
+    aim(camera);
   });
 
-  return <></>;
-};
+  return null;
+}
 
 useLoader.preload(OBJLoader, "/sr2pbf.obj");
 
@@ -67,6 +110,8 @@ function Planet({ motion }: { motion: boolean }) {
 }
 
 const FiberScene: React.FC<Props> = ({ view }) => {
+  const motion = !useReducedMotion();
+
   return (
     <div
       className={"fixed inset-0 asciiEffect font-mono bg-gray-950"}
@@ -82,16 +127,17 @@ const FiberScene: React.FC<Props> = ({ view }) => {
         }}
         className={"absolute inset-0"}
         dpr={1}
+        frameloop={motion ? "always" : "demand"}
         gl={{ powerPreference: "low-power", antialias: false }}
       >
         <color args={["black"]} attach="background" />
 
         <Suspense fallback={null}>
-          <Planet motion />
+          <Planet motion={motion} />
         </Suspense>
-        <Stars motion />
+        <Stars motion={motion} />
 
-        <CameraController view={view} />
+        <CameraController view={view} motion={motion} />
 
         <AsciiRenderer
           invert
