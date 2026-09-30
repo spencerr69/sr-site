@@ -1,14 +1,23 @@
 import { RouteFocus } from "@/components/RouteFocus";
 import { Scene } from "@/components/scene/Scene";
-import type { PropsWithChildren } from "react";
+import { getArtist } from "@/lib/api";
+import { paletteFrom } from "@/lib/palette";
+import type { CSSProperties, PropsWithChildren } from "react";
 
-export default function SiteLayout({ children }: PropsWithChildren) {
+export default async function SiteLayout({ children }: PropsWithChildren) {
+  const palette = paletteFrom(await getArtist());
+  const vars = {
+    "--background": palette.background,
+    "--foreground": palette.foreground,
+    "--accent": palette.accent,
+  } as CSSProperties;
+
   return (
-    <>
-      <link rel={"preconnect"} href={"https://sr.linkr.audio"} />
+    <div style={vars} className="text-foreground">
+      <link rel="preconnect" href="https://sr.linkr.audio" />
       <Scene />
       <RouteFocus />
       <main className={"m-15"}>{children}</main>
-    </>
+    </div>
   );
 }

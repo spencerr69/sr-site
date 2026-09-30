@@ -11,10 +11,7 @@ export function Artwork({
   return (
     <div
       className={
-        " aspect-square max-h-128 artwork p-3 border-gray-500 border-dotted border-2" +
-        " bg-gray-900" +
-        " hidden" +
-        " lg:block"
+        "aspect-square max-h-128 artwork p-3 border-foreground/40 border-dotted border-2 hidden lg:block bg-background"
       }
     >
       <Image

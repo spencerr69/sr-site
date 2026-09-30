@@ -20,7 +20,7 @@ export default function SiteError({
   return (
     <>
       <Heading>spencer raymond</Heading>
-      <div className="text-white font-mono text-sm font-light">
+      <div className=" font-mono text-sm font-light">
         <p>something broke on the way here.</p>
         <ul className="mt-6">
           <li>

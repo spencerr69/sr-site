@@ -14,7 +14,7 @@ export function Links({ artist, latest }: { artist: Artist; latest: Release }) {
   return (
     <>
       <Heading>spencer raymond</Heading>
-      <nav className="text-white font-mono text-sm font-light">
+      <nav className=" font-mono text-sm font-light">
         <ul>
           <li>
             {latest.self_url ? (

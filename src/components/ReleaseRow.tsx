@@ -7,7 +7,7 @@ export function ReleaseRow({ release }: { release: Release }) {
   const body = (
     <div
       className={
-        "release  bg-gray-900 p-2 border-dotted border-2 flex h-full justify-between"
+        "release bg-background p-2 border-dotted border-2 flex h-full justify-between"
       }
     >
       <div>
@@ -25,7 +25,7 @@ export function ReleaseRow({ release }: { release: Release }) {
             alt={`artwork for ${release.title}`}
           />
         </div>
-        <p className={"align-bottom text-right text-gray-500"}>{release.upc}</p>
+        <p className={"align-bottom text-right"}>{release.upc}</p>
       </div>
     </div>
   );

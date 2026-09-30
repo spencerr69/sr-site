@@ -87,8 +87,8 @@ function CameraController({
       return;
     }
     if (!diving) {
-      goal.x += pointer.x * PARALLAX;
-      goal.y += pointer.y * PARALLAX;
+      goal.x += pointer.y * PARALLAX;
+      goal.y += pointer.x * PARALLAX;
     }
     camera.position.lerp(
       goal,
@@ -145,7 +145,7 @@ const FiberScene: React.FC<Props> = ({ view }) => {
 
   return (
     <div
-      className={"fixed inset-0 asciiEffect font-mono bg-gray-950"}
+      className={"fixed inset-0 asciiEffect font-mono bg-background"}
       aria-hidden
     >
       <Canvas
@@ -173,8 +173,8 @@ const FiberScene: React.FC<Props> = ({ view }) => {
         <AsciiRenderer
           invert
           characters=" .,spencerraymond,"
-          fgColor="white"
-          bgColor="#0a0a0a"
+          fgColor="var(--foreground)"
+          bgColor="var(--background)"
         />
       </Canvas>
     </div>
