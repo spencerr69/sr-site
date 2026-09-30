@@ -15,7 +15,7 @@ export function Artwork({
       }
     >
       <Image
-        className={" p-3 object-fit h-full max-h-128"}
+        className={" p-3 object-contain h-full max-h-128"}
         src={release.artwork ?? ""}
         alt={`Album artwork for ${release.title}`}
         width={size ?? 500}

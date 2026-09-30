@@ -25,7 +25,7 @@ export function Discog({ releases }: { releases: Release[] }) {
         ))}
       </ul>
       <div className="hidden lg:block w-96">
-        {active && <Artwork release={active} size={750} />}
+        {active && <Artwork release={active} size={384} />}
       </div>
     </div>
   );
