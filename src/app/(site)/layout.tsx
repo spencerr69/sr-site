@@ -1,11 +1,11 @@
 import { RouteFocus } from "@/components/RouteFocus";
 import { Scene } from "@/components/scene/Scene";
 import { getArtist } from "@/lib/api";
-import { paletteFrom } from "@/lib/palette";
+import { FALLBACK_PALETTE, paletteFrom } from "@/lib/palette";
 import type { CSSProperties, PropsWithChildren } from "react";
 
 export default async function SiteLayout({ children }: PropsWithChildren) {
-  const palette = paletteFrom(await getArtist());
+  const palette = await getArtist().then(paletteFrom, () => FALLBACK_PALETTE);
   const vars = {
     "--background": palette.background,
     "--foreground": palette.foreground,
