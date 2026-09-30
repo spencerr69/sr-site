@@ -1,5 +1,6 @@
 import type { SceneView } from "@/components/scene/Scene";
 import { Stars } from "@/components/scene/Stars";
+import { exitSwoop } from "@/lib/exitSwoop";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { AsciiRenderer } from "@react-three/drei";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
@@ -18,6 +19,8 @@ const LAMBDA = 1.83; // 1 - e^(-1.83/60) ≈ 0.03: the old per-frame lerp at 60f
 const PARALLAX = 5; // world units the camera drifts when the pointer is at the edge of the window
 const pointer = { x: 0, y: 0 }; // -1..1, written by the pointermove listener
 const goal = new THREE.Vector3();
+const DIVE = new THREE.Vector3(0, 0, 95);
+const DIVE_LAMBDA = 2.2;
 
 const aim = (camera: THREE.Camera) => {
   camera.rotation.x = camera.position.x / 200;
@@ -33,6 +36,27 @@ function CameraController({
 }) {
   const invalidate = useThree((state) => state.invalidate);
   const size = useThree((state) => state.size);
+
+  const jump = useRef(false); // set on a bfcache restore: the next frame snaps instead of lerping
+
+  // a cancelled navigation (esc, offline) must not leave the next route diving
+  useEffect(() => {
+    exitSwoop.reset();
+  }, [view]);
+
+  // back from linkr via bfcache resumes this page mid-dive: clear it and snap back to the route
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (!e.persisted) return;
+      exitSwoop.reset();
+      jump.current = true;
+      invalidate();
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => {
+      window.removeEventListener("pageshow", onPageShow);
+    };
+  }, [invalidate]);
 
   // with frameloop="demand" nothing draws unless asked: redraw after a route change or a resize
   useEffect(() => {
@@ -54,15 +78,22 @@ function CameraController({
   }, [motion]);
 
   useFrame(({ camera }, delta) => {
-    goal.copy(TARGETS[view]);
-    if (!motion) {
+    const diving = motion && exitSwoop.isDiving();
+    goal.copy(diving ? DIVE : TARGETS[view]);
+    if (!motion || jump.current) {
+      jump.current = false;
       camera.position.copy(goal);
       aim(camera);
       return;
     }
-    goal.x += pointer.y * PARALLAX;
-    goal.y += pointer.x * PARALLAX;
-    camera.position.lerp(goal, 1 - Math.exp(-LAMBDA * delta));
+    if (!diving) {
+      goal.x += pointer.x * PARALLAX;
+      goal.y += pointer.y * PARALLAX;
+    }
+    camera.position.lerp(
+      goal,
+      1 - Math.exp(-(diving ? DIVE_LAMBDA : LAMBDA) * delta),
+    );
     aim(camera);
   });
 

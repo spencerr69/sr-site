@@ -1,3 +1,4 @@
+import { ExitLink } from "@/components/ExitLink";
 import { Heading } from "@/components/Heading";
 import type { Artist, Release } from "@/lib/definitions";
 import NextLink from "next/link";
@@ -17,9 +18,9 @@ export function Links({ artist, latest }: { artist: Artist; latest: Release }) {
         <ul>
           <li>
             {latest.self_url ? (
-              <a href={latest.self_url} className={ROW}>
+              <ExitLink href={latest.self_url} className={ROW}>
                 new: {latest.title} &gt;
-              </a>
+              </ExitLink>
             ) : (
               <span className="block py-3 lg:py-0">new: {latest.title} →</span>
             )}
