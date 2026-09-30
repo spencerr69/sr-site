@@ -27,9 +27,7 @@ export async function getReleases(): Promise<Release[]> {
 }
 
 export async function getRecentRelease(): Promise<Release> {
-  const [first] = await get<Release[]>("/releases/sr?limit=1");
-  if (!first) {
-    throw new Error("No releases found in linkr for artist sr");
-  }
+  const [first] = await getReleases();
+  if (!first) throw new Error("No releases found in linkr for artist sr");
   return first;
 }
