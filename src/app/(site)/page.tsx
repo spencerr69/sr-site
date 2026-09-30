@@ -1,12 +1,8 @@
 import { Links } from "@/components/Links";
-import { getArtist } from "@/lib/api";
+import { getArtist, getRecentRelease } from "@/lib/api";
 
 export default async function Home() {
-  const [artist] = await Promise.all([getArtist()]);
+  const [artist, latest] = await Promise.all([getArtist(), getRecentRelease()]);
 
-  return (
-    <>
-      <Links artist={artist} />
-    </>
-  );
+  return <Links artist={artist} latest={latest} />;
 }
