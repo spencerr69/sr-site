@@ -17,7 +17,7 @@ export default async function SiteLayout({ children }: PropsWithChildren) {
       <link rel="preconnect" href="https://sr.linkr.audio" />
       <Scene />
       <RouteFocus />
-      <main className={"m-15"}>{children}</main>
+      <main className={"m-4 sm:m-15"}>{children}</main>
     </div>
   );
 }

@@ -17,6 +17,7 @@ export function ExitLink({
     onClick?.(e);
     const plain =
       e.button === 0 &&
+      rest.target !== "_blank" &&
       !e.metaKey &&
       !e.ctrlKey &&
       !e.shiftKey &&
