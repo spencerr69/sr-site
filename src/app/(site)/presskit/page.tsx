@@ -1,7 +1,20 @@
 import { CopyButton } from "@/components/CopyButton";
 import { ExternalLink } from "@/components/ExternalLink";
-import { BIOS, EMAIL, QUOTE, SOCIALS } from "@/lib/presskit";
+import { Downloads } from "@/components/presskit/Downloads";
+import { Tile } from "@/components/presskit/Tile";
+import {
+  BIOS,
+  EMAIL,
+  FEATURES,
+  FESTS,
+  media,
+  PHOTOS,
+  QUOTE,
+  SOCIALS,
+} from "@/lib/presskit";
+import { getPresskitReleases } from "@/lib/presskitReleases";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -16,7 +29,9 @@ const heading = "mb-2 font-mono text-xl font-bold";
 const link =
   "underline underline-offset-4 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
-export default function PressKitPage() {
+export default async function PressKitPage() {
+  const releases = await getPresskitReleases();
+
   return (
     <>
       <section id="top" className="flex min-h-svh flex-col gap-4">
@@ -54,6 +69,27 @@ export default function PressKitPage() {
             free.
           </p>
         </section>
+        <section aria-labelledby="releases">
+          <h2 id="releases" className={heading}>
+            releases
+          </h2>
+          <ul className="grid grid-cols-3 gap-3">
+            {releases.flatMap((release) =>
+              release.artwork && release.url
+                ? [
+                    <li key={release.slug}>
+                      <Tile
+                        image={release.artwork}
+                        alt={`artwork for ${release.title}`}
+                        caption={release.title}
+                        href={release.url}
+                      />
+                    </li>,
+                  ]
+                : [],
+            )}
+          </ul>
+        </section>
       </div>
 
       <figure className="my-24 text-center">
@@ -66,7 +102,80 @@ export default function PressKitPage() {
       </figure>
 
       <div className="grid gap-x-12 gap-y-16 lg:grid-cols-2">
-        <section aria-labelledby="full-bio" className="lg:col-start-2">
+        <ul className="grid grid-cols-2 gap-3">
+          {FESTS.map((fest) => (
+            <li key={fest.id}>
+              <Tile
+                image={fest.poster}
+                alt={`${fest.name} lineup poster`}
+                caption={fest.name}
+                href={fest.href}
+                ratio="poster"
+              />
+            </li>
+          ))}
+        </ul>
+        <section aria-labelledby="live">
+          <h2 id="live" className={heading}>
+            live
+          </h2>
+          <p>
+            He plays URL fests (online festivals), sometimes doing
+            stripped-back, acoustic performances of his music, and sometimes pop
+            DJ sets.
+          </p>
+        </section>
+      </div>
+      <section aria-labelledby="features" className="mt-16">
+        <h2 id="features" className={heading}>
+          features
+        </h2>
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {FEATURES.map((feature) => (
+            <li key={feature.id}>
+              <Tile
+                image={feature.image}
+                alt={`${feature.title} by ${feature.artist}`}
+                caption={`${feature.artist}: ${feature.title} (${feature.year})`}
+                href={feature.href}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section aria-labelledby="photos" className="mt-16">
+        <h2 id="photos" className={heading}>
+          photos
+        </h2>
+        <ul className="grid gap-4 md:grid-cols-3">
+          {PHOTOS.map((photo, i) => (
+            <li key={photo.file}>
+              <Image
+                src={media(`presskit/photos/${photo.file}`)}
+                alt={`Spencer Raymond, press photo ${i + 1}`}
+                width={photo.width}
+                height={photo.height}
+                sizes="(min-width: 768px) 33vw, 100vw"
+                className="h-auto w-full"
+              />
+              <p className="mt-1 flex flex-wrap items-center gap-x-3 text-sm">
+                <span>photo: {photo.credit}</span>
+                <a
+                  href={media(`presskit/photos/${photo.file}`)}
+                  download
+                  className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent"
+                >
+                  download
+                </a>
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <div className="mt-16 grid gap-x-12 gap-y-16 lg:grid-cols-2">
+        <Downloads releases={releases} />
+        <section aria-labelledby="full-bio">
           <div className="flex items-baseline justify-between gap-4">
             <h2 id="full-bio" className={heading}>
               full bio

@@ -81,9 +81,75 @@ export const RELEASE_SLUGS = [
   "rfv",
   "amtpod",
 ];
-export const LOGO = { file: "logo.svg" };
+export const LOGO = { file: "sr-textlogo.png" };
 export const TRACKS: Track[] = [];
 export const CARDS: Record<string, Card> = {};
-export const FEATURES: Feature[] = [];
-export const FESTS: Fest[] = [];
+export const FEATURES: Feature[] = [
+  {
+    id: "wander",
+    artist: "m-key, adri",
+    title: "wander",
+    year: 2025,
+    image: media("presskit/tiles/wander.jpg"),
+    href: "https://m-key.bandcamp.com/track/wander-with-spencer-raymond-and-adri",
+  },
+  {
+    id: "cry",
+    artist: "Ima",
+    title: "Cry",
+    year: 2024,
+    image: media("presskit/tiles/cry.jpg"),
+    href: "https://imacreatesart.bandcamp.com/track/cry",
+  },
+  {
+    id: "let-you-go",
+    artist: "Blue Laze",
+    title: "let you go",
+    year: 2026,
+    image: media("presskit/tiles/let-you-go.jpg"),
+    href: "https://bluelaze.bandcamp.com/track/let-you-go",
+  },
+  {
+    id: "thats-as-far-as-you-can-go",
+    artist: "Astro",
+    title: "That's As Far As You Can Go",
+    year: 2025,
+    image: media("presskit/tiles/staring-straight-at-the-sun.jpg"),
+    href: "https://astronomy487.com/thats-as-far-as-you-can-go-feat-spencer-raymond/",
+  },
+  {
+    id: "last-dance",
+    artist: "Possums at Twilight",
+    title: "Last Dance",
+    year: 2024,
+    image: media("presskit/tiles/last-dance.jpg"),
+    href: "https://twilightpossum.bandcamp.com/track/last-dance-feat-spencer-raymond",
+  },
+];
+export const FESTS: Fest[] = [
+  {
+    id: "featherfest",
+    name: "Featherfest",
+    poster: media("presskit/tiles/featherfest.jpg"),
+    href: "https://featherfest.carrd.co",
+  },
+  {
+    id: "cloudfall",
+    name: "Cloudfall",
+    poster: media("presskit/tiles/cloudfall.jpg"),
+    href: "https://linktr.ee/cloudfallfest",
+  },
+  {
+    id: "lifeline",
+    name: "Lifeline",
+    poster: media("presskit/tiles/lifeline.jpg"),
+    href: "https://linktr.ee/lvmf",
+  },
+  {
+    id: "gayjazz",
+    name: "Gay Jazz",
+    poster: media("presskit/tiles/gayjazz.jpg"),
+    href: "https://soundcloud.com/gay-jazz",
+  },
+];
 export const PHOTOS: Photo[] = [];
