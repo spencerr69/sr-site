@@ -1,11 +1,51 @@
+import { ZipButton } from "@/components/presskit/ZipButton";
 import cloudflareLoader from "@/lib/imageLoader";
-import { LOGO, media } from "@/lib/presskit";
+import { BIOS, EMAIL, LOGO, media, PHOTOS } from "@/lib/presskit";
 import type { PresskitRelease } from "@/lib/presskitReleases";
 
 const button =
   "inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
+const zipText = () =>
+  [
+    "SPENCER RAYMOND: PRESS KIT",
+    "",
+    "one-liner",
+    BIOS.oneLiner,
+    "",
+    "short bio",
+    BIOS.short,
+    "",
+    "full bio",
+    ...BIOS.full.flatMap((paragraph) => [paragraph, ""]),
+    "photo credits",
+    ...PHOTOS.map((photo) => `${photo.file}: ${photo.credit}`),
+    "",
+    `contact: ${EMAIL}`,
+  ].join("\n");
+
 export function Downloads({ releases }: { releases: PresskitRelease[] }) {
+  const files = [
+    ...PHOTOS.map((photo) => ({
+      name: `photos/${photo.file}`,
+      url: media(`presskit/photos/${photo.file}`),
+    })),
+    ...releases.flatMap((release) =>
+      release.artwork
+        ? [
+            {
+              name: `artwork/${release.slug}.jpg`,
+              url: cloudflareLoader({
+                src: release.artwork,
+                width: release.downloadWidth,
+              }),
+            },
+          ]
+        : [],
+    ),
+    { name: `logo/${LOGO.file}`, url: media(`presskit/logo/${LOGO.file}`) },
+  ];
+
   return (
     <section aria-labelledby="downloads">
       <h2 id="downloads" className="mb-2 font-mono text-xl font-bold">
@@ -46,6 +86,9 @@ export function Downloads({ releases }: { releases: PresskitRelease[] }) {
           >
             download
           </a>
+        </li>
+        <li>
+          <ZipButton files={files} text={zipText()} />
         </li>
       </ul>
     </section>
