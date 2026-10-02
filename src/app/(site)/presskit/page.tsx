@@ -51,7 +51,7 @@ export default async function PressKitPage() {
   return (
     <>
       <SceneFade top={"top"} bottom={"contact"} />
-      <section id="top" className="flex min-h-svh flex-col gap-4">
+      <section id="top" className="flex min-h-[90vh] flex-col gap-4">
         <div className={`${panel} max-w-xl`}>
           <h1 className="font-mono text-3xl font-bold">spencer raymond</h1>
           <Link href="/" className="nav-link cursor-pointer font-mono">
@@ -227,7 +227,7 @@ export default async function PressKitPage() {
 
       <section
         id="contact"
-        className="mt-24 flex min-h-[50svh] items-end pb-24"
+        className="mt-24 flex min-h-[80svh] items-end pb-24"
       >
         <div className={`${panel} max-w-xl`}>
           <h2 className={heading}>contact</h2>
