@@ -2,6 +2,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { ExternalLink } from "@/components/ExternalLink";
 import { Downloads } from "@/components/presskit/Downloads";
 import { CardHost, CardLink } from "@/components/presskit/PressCard";
+import { PressPlayer } from "@/components/presskit/PressPlayer";
 import { Tile } from "@/components/presskit/Tile";
 import {
   BIOS,
@@ -12,6 +13,7 @@ import {
   PHOTOS,
   QUOTE,
   SOCIALS,
+  TRACKS,
 } from "@/lib/presskit";
 import { getPresskitReleases, resolveCards } from "@/lib/presskitReleases";
 import type { Metadata } from "next";
@@ -49,6 +51,9 @@ export default async function PressKitPage() {
             back
           </Link>
           <p className="mt-2">{BIOS.oneLiner}</p>
+        </div>
+        <div id="player" className={`${panel} max-w-xl`}>
+          <PressPlayer tracks={TRACKS} />
         </div>
       </section>
 

@@ -82,7 +82,96 @@ export const RELEASE_SLUGS = [
   "amtpod",
 ];
 export const LOGO = { file: "sr-textlogo.png" };
-export const TRACKS: Track[] = [];
+export const TRACKS: Track[] = [
+  {
+    id: "lifetime",
+    title: "Lifetime",
+    from: "Stuck in the stream",
+    src: media("presskit/audio/lifetime.mp3"),
+    artwork: "https://linkr.audio/images?image=sr--20260819054852257.jpg",
+    hook: 214,
+    links: [
+      {
+        href: "https://open.spotify.com/track/5mSCBfOtOHqC0QJsN2COgy",
+        label: "spotify",
+      },
+      {
+        href: "https://music.apple.com/au/album/lifetime/6794241979?i=6794242241",
+        label: "apple music",
+      },
+      {
+        href: "https://spencerr69.bandcamp.com/track/lifetime",
+        label: "bandcamp",
+      },
+    ],
+  },
+  {
+    id: "lucid",
+    title: "Lucid (feat. Velaspace)",
+    from: "Stuck in the stream",
+    src: media("presskit/audio/lucid.mp3"),
+    artwork: "https://linkr.audio/images?image=sr--20260819054852257.jpg",
+    hook: 43,
+    links: [
+      {
+        href: "https://open.spotify.com/track/3GJ7Q5DJ1BUbWBGRJr3HYq",
+        label: "spotify",
+      },
+      {
+        href: "https://music.apple.com/au/album/lucid-feat-velaspace/6794241979?i=6794241989",
+        label: "apple music",
+      },
+      {
+        href: "https://spencerr69.bandcamp.com/track/lucid-feat-velaspace",
+        label: "bandcamp",
+      },
+    ],
+  },
+  {
+    id: "wing",
+    title: "Wing (feat. Ima)",
+    from: "Stuck in the stream",
+    src: media("presskit/audio/wing.mp3"),
+    artwork: "https://linkr.audio/images?image=sr--20260819054852257.jpg",
+    hook: 54,
+    links: [
+      {
+        href: "https://open.spotify.com/track/4sn3PCJXq9S2dX5zL1WfWY",
+        label: "spotify",
+      },
+      {
+        href: "https://music.apple.com/au/album/wing-feat-ima/6794241979?i=6794242236",
+        label: "apple music",
+      },
+      {
+        href: "https://spencerr69.bandcamp.com/track/wing-feat-ima",
+        label: "bandcamp",
+      },
+    ],
+  },
+  {
+    id: "in-your-sight-live",
+    title: "In your sight (live)",
+    from: "live at Featherfest",
+    src: media("presskit/audio/in-your-sight-live.mp3"),
+    artwork: "https://i.scdn.co/image/ab67616d0000b2731c196784ffa305e14b9d1594",
+    hook: 180,
+    links: [
+      {
+        href: "https://open.spotify.com/track/7kmjilfOQUpd06sLPXnwAY",
+        label: "spotify",
+      },
+      {
+        href: "https://music.apple.com/au/album/in-your-sight/6794241979?i=6794241986",
+        label: "apple music",
+      },
+      {
+        href: "https://spencerr69.bandcamp.com/track/in-your-sight",
+        label: "bandcamp",
+      },
+    ],
+  },
+];
 export const CARDS: Record<string, Card> = {
   sits: {
     description: "2026 electronic album",
