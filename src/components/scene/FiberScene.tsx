@@ -1,7 +1,7 @@
 import type { SceneView } from "@/components/scene/Scene";
 import { Stars } from "@/components/scene/Stars";
 import { exitSwoop } from "@/lib/exitSwoop";
-import { useSceneFade } from "@/lib/sceneFade";
+import { useSceneFade, useScenePart } from "@/lib/sceneFade";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { AsciiRenderer } from "@react-three/drei";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
@@ -14,7 +14,9 @@ type Props = { view: SceneView };
 const TARGETS = {
   home: new THREE.Vector3(0, 0, 500),
   music: new THREE.Vector3(-50, 50, 150),
+  presskit: new THREE.Vector3(-60, -20, 760),
 } as const;
+const PRESSKIT_BOTTOM = new THREE.Vector3(80, 50, 930);
 
 const LAMBDA = 1.83; // 1 - e^(-1.83/60) ≈ 0.03: the old per-frame lerp at 60fps, now the same at any frame rate
 const PARALLAX = 5; // world units the camera drifts when the pointer is at the edge of the window
@@ -37,6 +39,7 @@ function CameraController({
 }) {
   const invalidate = useThree((state) => state.invalidate);
   const size = useThree((state) => state.size);
+  const part = useScenePart();
 
   const jump = useRef(false); // set on a bfcache restore: the next frame snaps instead of lerping
 
@@ -62,7 +65,7 @@ function CameraController({
   // with frameloop="demand" nothing draws unless asked: redraw after a route change or a resize
   useEffect(() => {
     invalidate();
-  }, [view, size, invalidate]);
+  }, [view, size, part, invalidate]);
 
   useEffect(() => {
     if (!motion || !window.matchMedia("(pointer: fine)").matches) return;
@@ -80,7 +83,13 @@ function CameraController({
 
   useFrame(({ camera }, delta) => {
     const diving = motion && exitSwoop.isDiving();
-    goal.copy(diving ? DIVE : TARGETS[view]);
+    goal.copy(
+      diving
+        ? DIVE
+        : view === "presskit" && part === "bottom"
+          ? PRESSKIT_BOTTOM
+          : TARGETS[view],
+    );
     if (!motion || jump.current) {
       jump.current = false;
       camera.position.copy(goal);

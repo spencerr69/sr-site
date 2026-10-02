@@ -3,9 +3,13 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { Component, type ReactNode } from "react";
 
-export type SceneView = "home" | "music";
+export type SceneView = "home" | "music" | "presskit";
 export const viewForPath = (pathname: string): SceneView =>
-  pathname === "/music" || pathname.startsWith("/music/") ? "music" : "home";
+  pathname === "/presskit"
+    ? "presskit"
+    : pathname === "/music" || pathname.startsWith("/music/")
+      ? "music"
+      : "home";
 
 const FiberScene = dynamic(() => import("@/components/scene/FiberScene"), {
   ssr: false,
