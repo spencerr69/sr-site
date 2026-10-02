@@ -2,7 +2,7 @@
 import type { CardData } from "@/lib/presskitReleases";
 import { PreviewCard } from "@base-ui/react/preview-card";
 import Image from "next/image";
-import { type ReactNode, useRef, useState } from "react";
+import { type ReactNode, useId, useRef, useState } from "react";
 
 const cardHandle = PreviewCard.createHandle<CardData>();
 
@@ -11,16 +11,16 @@ const isExternal = (href: string) => !href.startsWith("/");
 const BAR_CLEARANCE = 88;
 
 export function CardLink({
-  id,
   card,
   className,
   children,
 }: {
-  id: string;
   card: CardData;
   className?: string;
   children: ReactNode;
 }) {
+  const id = useId();
+
   const pressedWith = useRef("");
   const external = isExternal(card.href);
   const describedBy = `${id}-card`;

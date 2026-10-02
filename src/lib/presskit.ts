@@ -83,7 +83,64 @@ export const RELEASE_SLUGS = [
 ];
 export const LOGO = { file: "sr-textlogo.png" };
 export const TRACKS: Track[] = [];
-export const CARDS: Record<string, Card> = {};
+export const CARDS: Record<string, Card> = {
+  sits: {
+    description: "2026 electronic album",
+  },
+  amtpod: {
+    title: "A Moment To Pivot On",
+    description: "2024 indie debut album",
+  },
+  iys: {
+    description: "lead single of Stuck in the stream",
+  },
+  d2m: {
+    description:
+      "second single of Stuck in the stream featuring the one and only Julie Ragbeer",
+  },
+  ga2i: {
+    description: "third single of Stuck in the stream",
+  },
+  lifetime: {
+    title: "Lifetime",
+    description: "official real spencer raymond love song not clickbait",
+    href: "https://sr.linkr.audio/sits",
+    image: media("presskit/tiles/sits.jpg"),
+  },
+  velaspace: {
+    title: "Velaspace",
+    description: "one of my friends and an awesome electronic musician",
+    href: "https://soundcloud.com/velaspace",
+    image: media("presskit/tiles/velaspace.jpg"),
+    quote: JOKE_QUOTES.velaspace,
+  },
+  ima: {
+    title: "Ima",
+    description: "one of my friends and an epic electronic musician",
+    href: "https://imacreatesart.carrd.co",
+    image: media("presskit/tiles/ima.jpg"),
+    quote: JOKE_QUOTES.ima,
+  },
+  julie: {
+    title: "Julie Ragbeer",
+    description: "an awesome pop musician",
+    href: "https://julieragbeer.com",
+    image: media("presskit/tiles/julie.jpg"),
+  },
+  stems: {
+    title: "Stuck in the stream Stems",
+    description: "all of the stems from Stuck in the stream, available free",
+    href: "https://drive.google.com/", //TODO actual link
+    image: media("presskit/tiles/sits.jpg"),
+  },
+  featherfest: {
+    title: "Featherfest",
+    description:
+      "a URL festival hosted by my friend Ima !! always a diverse mix of genres on display here",
+    href: "https://featherfest.carrd.co",
+    image: media("presskit/tiles/featherfest.jpg"),
+  },
+};
 export const FEATURES: Feature[] = [
   {
     id: "wander",

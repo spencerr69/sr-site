@@ -1,6 +1,7 @@
 import { CopyButton } from "@/components/CopyButton";
 import { ExternalLink } from "@/components/ExternalLink";
 import { Downloads } from "@/components/presskit/Downloads";
+import { CardHost, CardLink } from "@/components/presskit/PressCard";
 import { Tile } from "@/components/presskit/Tile";
 import {
   BIOS,
@@ -12,10 +13,11 @@ import {
   QUOTE,
   SOCIALS,
 } from "@/lib/presskit";
-import { getPresskitReleases } from "@/lib/presskitReleases";
+import { getPresskitReleases, resolveCards } from "@/lib/presskitReleases";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: { absolute: "Spencer Raymond: press kit" },
@@ -31,6 +33,12 @@ const link =
 
 export default async function PressKitPage() {
   const releases = await getPresskitReleases();
+
+  const cards = resolveCards(releases);
+  const named = (id: string, children: ReactNode) => {
+    const card = cards[id];
+    return card ? <CardLink card={card}>{children}</CardLink> : children;
+  };
 
   return (
     <>
@@ -55,18 +63,22 @@ export default async function PressKitPage() {
             soft-edged electronic and indie rock.
           </p>
           <p>
-            His second album, <em>Stuck in the stream</em>, arrived on 21 August
-            2026. His debut album, <em>A Moment To Pivot On</em> (2024), was
-            rooted in guitar and organic sounds; <em>Stuck in the stream</em>{" "}
-            was built with the production at its core. Julie Ragbeer, Velaspace,
-            and Ima each feature on one of the eleven tracks, which range from
-            synthetic dance music to textured, intricate ballads. The singles{" "}
-            <em>In your sight</em>, <em>Did to me</em> (feat. Julie Ragbeer),
-            and <em>Get around to it</em> came in the months leading up to
-            release, and <em>Lifetime</em>, the six-and-a-half minute
-            penultimate power ballad was featured on Happy Mag&apos;s New Music
-            Radar. The stems for the entire album are available to download for
-            free.
+            His second album, {named("sits", <em>Stuck in the stream</em>)},
+            arrived on 21 August 2026. His debut album,{" "}
+            {named("amtpod", <em>A Moment To Pivot On</em>)} (2024), was rooted
+            in guitar and organic sounds; <em>Stuck in the stream</em> was built
+            with the production at its core. {named("julie", "Julie Ragbeer")},{" "}
+            {named("velaspace", "Velaspace")}, and {named("ima", "Ima")} each
+            feature on one of the eleven tracks, which range from synthetic
+            dance music to textured, intricate ballads. The singles{" "}
+            {named("iys", <em>In your sight</em>)},{" "}
+            {named("d2m", <em>Did to me</em>)} (feat. Julie Ragbeer), and{" "}
+            {named("ga2i", <em>Get around to it</em>)} came in the months
+            leading up to release, and {named("lifetime", <em>Lifetime</em>)},
+            the six-and-a-half minute penultimate power ballad was featured on{" "}
+            {named("happymag", "Happy Mag's New Music Radar")}.{" "}
+            {named("stems", "The stems")} for the entire album are available to
+            download for free.
           </p>
         </section>
         <section aria-labelledby="releases">
@@ -83,6 +95,7 @@ export default async function PressKitPage() {
                         alt={`artwork for ${release.title}`}
                         caption={release.title}
                         href={release.url}
+                        card={cards[release.slug]}
                       />
                     </li>,
                   ]
@@ -111,6 +124,7 @@ export default async function PressKitPage() {
                 caption={fest.name}
                 href={fest.href}
                 ratio="poster"
+                card={cards[fest.id]}
               />
             </li>
           ))}
@@ -138,6 +152,7 @@ export default async function PressKitPage() {
                 alt={`${feature.title} by ${feature.artist}`}
                 caption={`${feature.artist}: ${feature.title} (${feature.year})`}
                 href={feature.href}
+                card={cards[feature.id]}
               />
             </li>
           ))}
@@ -226,6 +241,7 @@ export default async function PressKitPage() {
           </p>
         </div>
       </section>
+      <CardHost />
     </>
   );
 }
