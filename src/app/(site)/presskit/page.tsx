@@ -10,15 +10,12 @@ import {
   EMAIL,
   FEATURES,
   FESTS,
-  media,
-  PHOTOS,
   QUOTE,
   SOCIALS,
   TRACKS,
 } from "@/lib/presskit";
 import { getPresskitReleases, resolveCards } from "@/lib/presskitReleases";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -179,35 +176,35 @@ export default async function PressKitPage() {
               ))}
             </ul>
           </section>
-          <section aria-labelledby="photos" className="mt-16">
-            <h2 id="photos" className={heading}>
-              photos
-            </h2>
-            <ul className="grid gap-4 md:grid-cols-3">
-              {PHOTOS.map((photo, i) => (
-                <li key={photo.file}>
-                  <Image
-                    src={media(`presskit/photos/${photo.file}`)}
-                    alt={`Spencer Raymond, press photo ${i + 1}`}
-                    width={photo.width}
-                    height={photo.height}
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                    className="h-auto w-full"
-                  />
-                  <p className="mt-1 flex flex-wrap items-center gap-x-3 text-sm">
-                    <span>photo: {photo.credit}</span>
-                    <a
-                      href={media(`presskit/photos/${photo.file}`)}
-                      download
-                      className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent"
-                    >
-                      download
-                    </a>
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </section>
+          {/*<section aria-labelledby="photos" className="mt-16">*/}
+          {/*  <h2 id="photos" className={heading}>*/}
+          {/*    photos*/}
+          {/*  </h2>*/}
+          {/*  <ul className="grid gap-4 md:grid-cols-3">*/}
+          {/*    {PHOTOS.map((photo, i) => (*/}
+          {/*      <li key={photo.file}>*/}
+          {/*        <Image*/}
+          {/*          src={media(`presskit/photos/${photo.file}`)}*/}
+          {/*          alt={`Spencer Raymond, press photo ${i + 1}`}*/}
+          {/*          width={photo.width}*/}
+          {/*          height={photo.height}*/}
+          {/*          sizes="(min-width: 768px) 33vw, 100vw"*/}
+          {/*          className="h-auto w-full"*/}
+          {/*        />*/}
+          {/*        <p className="mt-1 flex flex-wrap items-center gap-x-3 text-sm">*/}
+          {/*          <span>photo: {photo.credit}</span>*/}
+          {/*          <a*/}
+          {/*            href={media(`presskit/photos/${photo.file}`)}*/}
+          {/*            download*/}
+          {/*            className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent"*/}
+          {/*          >*/}
+          {/*            download*/}
+          {/*          </a>*/}
+          {/*        </p>*/}
+          {/*      </li>*/}
+          {/*    ))}*/}
+          {/*  </ul>*/}
+          {/*</section>*/}
 
           <div className="mt-16 grid gap-x-12 gap-y-16 lg:grid-cols-2">
             <Downloads releases={releases} />
