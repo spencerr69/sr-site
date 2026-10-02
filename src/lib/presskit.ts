@@ -219,7 +219,7 @@ export const CARDS: Record<string, Card> = {
   stems: {
     title: "Stuck in the stream Stems",
     description: "all of the stems from Stuck in the stream, available free",
-    href: "https://drive.google.com/", //TODO actual link
+    href: "https://drive.google.com/drive/folders/1NrrCSFSMcHUa3LIU6e4KWzuce0xIBxmH?usp=sharing",
     image: media("presskit/tiles/sits.jpg"),
   },
   featherfest: {
