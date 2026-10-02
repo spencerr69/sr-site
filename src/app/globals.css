@@ -73,4 +73,19 @@ blockquote::before{
     @apply not-italic;
 }
 
+.scene-layer {
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.6s ease, filter 0.6s ease;
+}
 
+.scene-layer.scene-dim {
+    opacity: 0.8;
+    filter: blur(32px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scene-layer {
+        transition: none;
+    }
+}

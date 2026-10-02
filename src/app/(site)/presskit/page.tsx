@@ -4,6 +4,7 @@ import { Downloads } from "@/components/presskit/Downloads";
 import { CardHost, CardLink } from "@/components/presskit/PressCard";
 import { PressPlayer } from "@/components/presskit/PressPlayer";
 import { Tile } from "@/components/presskit/Tile";
+import { SceneFade } from "@/components/SceneFade";
 import {
   BIOS,
   EMAIL,
@@ -44,6 +45,7 @@ export default async function PressKitPage() {
 
   return (
     <>
+      <SceneFade top={"top"} bottom={"contact"} />
       <section id="top" className="flex min-h-svh flex-col gap-4">
         <div className={`${panel} max-w-xl`}>
           <h1 className="font-mono text-3xl font-bold">spencer raymond</h1>

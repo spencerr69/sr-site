@@ -1,6 +1,7 @@
 import type { SceneView } from "@/components/scene/Scene";
 import { Stars } from "@/components/scene/Stars";
 import { exitSwoop } from "@/lib/exitSwoop";
+import { useSceneFade } from "@/lib/sceneFade";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { AsciiRenderer } from "@react-three/drei";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
@@ -111,19 +112,19 @@ function Planet({ motion }: { motion: boolean }) {
   const keyLight = useRef<THREE.PointLight>(null);
   const fillLight = useRef<THREE.PointLight>(null);
   const revealStart = useRef<number | null>(null);
+  const spin = useRef(0);
 
-  useFrame(({ clock }) => {
-    // the lights mount with the obj, so the first frame they exist starts the ramp
+  useFrame((_, delta) => {
     revealStart.current ??= performance.now();
     const reveal = motion
       ? Math.min(1, (performance.now() - revealStart.current) / 1000)
       : 1;
     if (keyLight.current) keyLight.current.intensity = KEY_LIGHT * reveal;
     if (fillLight.current) fillLight.current.intensity = FILL_LIGHT * reveal;
-
     if (!motion || !planet.current) return;
-    planet.current.rotation.y = clock.elapsedTime * -0.2;
-    planet.current.rotation.z = Math.sin(clock.elapsedTime * 0.7) * 0.1;
+    spin.current += delta;
+    planet.current.rotation.y = spin.current * -0.2;
+    planet.current.rotation.z = Math.sin(spin.current * 0.7) * 0.1;
   });
 
   return (
@@ -142,6 +143,7 @@ function Planet({ motion }: { motion: boolean }) {
 
 const FiberScene: React.FC<Props> = ({ view }) => {
   const motion = !useReducedMotion();
+  const fade = useSceneFade();
 
   return (
     <div
@@ -156,9 +158,9 @@ const FiberScene: React.FC<Props> = ({ view }) => {
           position: TARGETS[view].toArray(),
           rotation: [0, 0, 0],
         }}
-        className={"absolute inset-0"}
+        className={fade === "full" ? "scene-layer" : "scene-layer scene-dim"}
         dpr={1}
-        frameloop={motion ? "always" : "demand"}
+        frameloop={motion && fade !== "asleep" ? "always" : "demand"}
         gl={{ powerPreference: "low-power", antialias: false }}
       >
         <color args={["black"]} attach="background" />
