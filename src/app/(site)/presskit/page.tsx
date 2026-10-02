@@ -26,6 +26,14 @@ export const metadata: Metadata = {
   title: { absolute: "Spencer Raymond: press kit" },
   description: BIOS.oneLiner,
   alternates: { canonical: "/presskit" },
+  openGraph: {
+    title: "Spencer Raymond: press kit",
+    description: BIOS.oneLiner,
+    siteName: "spencer raymond",
+    locale: "en_AU",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 const panel =
@@ -59,157 +67,165 @@ export default async function PressKitPage() {
         </div>
       </section>
 
-      <div className="grid gap-x-12 gap-y-16 lg:grid-cols-2">
-        <section aria-labelledby="about">
-          <h2 id="about" className={heading}>
-            about
-          </h2>
-          <p className="mb-4">
-            Spencer Raymond is a musician, songwriter, and producer from
-            Naarm/Melbourne, Australia. His music ebbs and flows between
-            soft-edged electronic and indie rock.
-          </p>
-          <p>
-            His second album, {named("sits", <em>Stuck in the stream</em>)},
-            arrived on 21 August 2026. His debut album,{" "}
-            {named("amtpod", <em>A Moment To Pivot On</em>)} (2024), was rooted
-            in guitar and organic sounds; <em>Stuck in the stream</em> was built
-            with the production at its core. {named("julie", "Julie Ragbeer")},{" "}
-            {named("velaspace", "Velaspace")}, and {named("ima", "Ima")} each
-            feature on one of the eleven tracks, which range from synthetic
-            dance music to textured, intricate ballads. The singles{" "}
-            {named("iys", <em>In your sight</em>)},{" "}
-            {named("d2m", <em>Did to me</em>)} (feat. Julie Ragbeer), and{" "}
-            {named("ga2i", <em>Get around to it</em>)} came in the months
-            leading up to release, and {named("lifetime", <em>Lifetime</em>)},
-            the six-and-a-half minute penultimate power ballad was featured on{" "}
-            {named("happymag", "Happy Mag's New Music Radar")}.{" "}
-            {named("stems", "The stems")} for the entire album are available to
-            download for free.
-          </p>
-        </section>
-        <section aria-labelledby="releases">
-          <h2 id="releases" className={heading}>
-            releases
-          </h2>
-          <ul className="grid grid-cols-3 gap-3">
-            {releases.flatMap((release) =>
-              release.artwork && release.url
-                ? [
-                    <li key={release.slug}>
-                      <Tile
-                        image={release.artwork}
-                        alt={`artwork for ${release.title}`}
-                        caption={release.title}
-                        href={release.url}
-                        card={cards[release.slug]}
-                      />
-                    </li>,
-                  ]
-                : [],
-            )}
-          </ul>
-        </section>
-      </div>
-
-      <figure className="my-24 text-center">
-        <blockquote className="text-2xl lg:text-4xl">“{QUOTE.text}”</blockquote>
-        <figcaption className="mt-4">
-          <ExternalLink href={QUOTE.href} className={link}>
-            {QUOTE.source}
-          </ExternalLink>
-        </figcaption>
-      </figure>
-
-      <div className="grid gap-x-12 gap-y-16 lg:grid-cols-2">
-        <ul className="grid grid-cols-2 gap-3">
-          {FESTS.map((fest) => (
-            <li key={fest.id}>
-              <Tile
-                image={fest.poster}
-                alt={`${fest.name} lineup poster`}
-                caption={fest.name}
-                href={fest.href}
-                ratio="poster"
-                card={cards[fest.id]}
-              />
-            </li>
-          ))}
-        </ul>
-        <section aria-labelledby="live">
-          <h2 id="live" className={heading}>
-            live
-          </h2>
-          <p>
-            He plays URL fests (online festivals), sometimes doing
-            stripped-back, acoustic performances of his music, and sometimes pop
-            DJ sets.
-          </p>
-        </section>
-      </div>
-      <section aria-labelledby="features" className="mt-16">
-        <h2 id="features" className={heading}>
-          features
-        </h2>
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {FEATURES.map((feature) => (
-            <li key={feature.id}>
-              <Tile
-                image={feature.image}
-                alt={`${feature.title} by ${feature.artist}`}
-                caption={`${feature.artist}: ${feature.title} (${feature.year})`}
-                href={feature.href}
-                card={cards[feature.id]}
-              />
-            </li>
-          ))}
-        </ul>
-      </section>
-      <section aria-labelledby="photos" className="mt-16">
-        <h2 id="photos" className={heading}>
-          photos
-        </h2>
-        <ul className="grid gap-4 md:grid-cols-3">
-          {PHOTOS.map((photo, i) => (
-            <li key={photo.file}>
-              <Image
-                src={media(`presskit/photos/${photo.file}`)}
-                alt={`Spencer Raymond, press photo ${i + 1}`}
-                width={photo.width}
-                height={photo.height}
-                sizes="(min-width: 768px) 33vw, 100vw"
-                className="h-auto w-full"
-              />
-              <p className="mt-1 flex flex-wrap items-center gap-x-3 text-sm">
-                <span>photo: {photo.credit}</span>
-                <a
-                  href={media(`presskit/photos/${photo.file}`)}
-                  download
-                  className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent"
-                >
-                  download
-                </a>
+      <div className={" flex flex-col items-center"}>
+        <div className={"max-w-6xl"}>
+          <div className="grid gap-x-12 gap-y-16 lg:grid-cols-2">
+            <section aria-labelledby="about">
+              <h2 id="about" className={heading}>
+                about
+              </h2>
+              <p className="mb-4">
+                Spencer Raymond is a musician, songwriter, and producer from
+                Naarm/Melbourne, Australia. His music ebbs and flows between
+                soft-edged electronic and indie rock.
               </p>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <div className="mt-16 grid gap-x-12 gap-y-16 lg:grid-cols-2">
-        <Downloads releases={releases} />
-        <section aria-labelledby="full-bio">
-          <div className="flex items-baseline justify-between gap-4">
-            <h2 id="full-bio" className={heading}>
-              full bio
-            </h2>
-            <CopyButton text={BIOS.full.join("\n\n")} />
+              <p>
+                His second album, {named("sits", <em>Stuck in the stream</em>)},
+                arrived on 21 August 2026. His debut album,{" "}
+                {named("amtpod", <em>A Moment To Pivot On</em>)} (2024), was
+                rooted in guitar and organic sounds;{" "}
+                <em>Stuck in the stream</em> was built with the production at
+                its core. {named("julie", "Julie Ragbeer")},{" "}
+                {named("velaspace", "Velaspace")}, and {named("ima", "Ima")}{" "}
+                each feature on one of the eleven tracks, which range from
+                synthetic dance music to textured, intricate ballads. The
+                singles {named("iys", <em>In your sight</em>)},{" "}
+                {named("d2m", <em>Did to me</em>)} (feat. Julie Ragbeer), and{" "}
+                {named("ga2i", <em>Get around to it</em>)} came in the months
+                leading up to release, and{" "}
+                {named("lifetime", <em>Lifetime</em>)}, the six-and-a-half
+                minute penultimate power ballad was featured on{" "}
+                {named("happymag", "Happy Mag's New Music Radar")}.{" "}
+                {named("stems", "The stems")} for the entire album are available
+                to download for free.
+              </p>
+            </section>
+            <section aria-labelledby="releases">
+              <h2 id="releases" className={heading}>
+                releases
+              </h2>
+              <ul className="grid grid-cols-3 gap-3">
+                {releases.flatMap((release) =>
+                  release.artwork && release.url
+                    ? [
+                        <li key={release.slug}>
+                          <Tile
+                            image={release.artwork}
+                            alt={`artwork for ${release.title}`}
+                            caption={release.title}
+                            href={release.url}
+                            card={cards[release.slug]}
+                          />
+                        </li>,
+                      ]
+                    : [],
+                )}
+              </ul>
+            </section>
           </div>
-          {BIOS.full.map((paragraph) => (
-            <p key={paragraph} className="mb-3">
-              {paragraph}
-            </p>
-          ))}
-        </section>
+
+          <figure className="my-24 text-center">
+            <blockquote className="text-2xl lg:text-4xl">
+              “{QUOTE.text}”
+            </blockquote>
+            <figcaption className="mt-4">
+              <ExternalLink href={QUOTE.href} className={link}>
+                {QUOTE.source}
+              </ExternalLink>
+            </figcaption>
+          </figure>
+
+          <div className="grid gap-x-12 gap-y-16 lg:grid-cols-2">
+            <ul className="grid grid-cols-2 gap-3">
+              {FESTS.map((fest) => (
+                <li key={fest.id}>
+                  <Tile
+                    image={fest.poster}
+                    alt={`${fest.name} lineup poster`}
+                    caption={fest.name}
+                    href={fest.href}
+                    ratio="poster"
+                    card={cards[fest.id]}
+                  />
+                </li>
+              ))}
+            </ul>
+            <section aria-labelledby="live">
+              <h2 id="live" className={heading}>
+                live
+              </h2>
+              <p>
+                He plays URL fests (online festivals), sometimes doing
+                stripped-back, acoustic performances of his music, and sometimes
+                pop DJ sets.
+              </p>
+            </section>
+          </div>
+          <section aria-labelledby="features" className="mt-16">
+            <h2 id="features" className={heading}>
+              features
+            </h2>
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+              {FEATURES.map((feature) => (
+                <li key={feature.id}>
+                  <Tile
+                    image={feature.image}
+                    alt={`${feature.title} by ${feature.artist}`}
+                    caption={`${feature.artist}: ${feature.title} (${feature.year})`}
+                    href={feature.href}
+                    card={cards[feature.id]}
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section aria-labelledby="photos" className="mt-16">
+            <h2 id="photos" className={heading}>
+              photos
+            </h2>
+            <ul className="grid gap-4 md:grid-cols-3">
+              {PHOTOS.map((photo, i) => (
+                <li key={photo.file}>
+                  <Image
+                    src={media(`presskit/photos/${photo.file}`)}
+                    alt={`Spencer Raymond, press photo ${i + 1}`}
+                    width={photo.width}
+                    height={photo.height}
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="h-auto w-full"
+                  />
+                  <p className="mt-1 flex flex-wrap items-center gap-x-3 text-sm">
+                    <span>photo: {photo.credit}</span>
+                    <a
+                      href={media(`presskit/photos/${photo.file}`)}
+                      download
+                      className="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-accent"
+                    >
+                      download
+                    </a>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <div className="mt-16 grid gap-x-12 gap-y-16 lg:grid-cols-2">
+            <Downloads releases={releases} />
+            <section aria-labelledby="full-bio">
+              <div className="flex items-baseline justify-between gap-4">
+                <h2 id="full-bio" className={heading}>
+                  full bio
+                </h2>
+                <CopyButton text={BIOS.full.join("\n\n")} />
+              </div>
+              {BIOS.full.map((paragraph) => (
+                <p key={paragraph} className="mb-3">
+                  {paragraph}
+                </p>
+              ))}
+            </section>
+          </div>
+        </div>
       </div>
 
       <section

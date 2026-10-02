@@ -16,7 +16,7 @@ const TARGETS = {
   music: new THREE.Vector3(-50, 50, 150),
   presskit: new THREE.Vector3(-60, -20, 760),
 } as const;
-const PRESSKIT_BOTTOM = new THREE.Vector3(80, 50, 930);
+const PRESSKIT_BOTTOM = new THREE.Vector3(40, 60, 930);
 
 const LAMBDA = 1.83; // 1 - e^(-1.83/60) ≈ 0.03: the old per-frame lerp at 60fps, now the same at any frame rate
 const PARALLAX = 5; // world units the camera drifts when the pointer is at the edge of the window
