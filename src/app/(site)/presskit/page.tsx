@@ -246,6 +246,7 @@ export default async function PressKitPage() {
           </p>
         </div>
       </section>
+      <div id={"player-bar"} />
       <CardHost />
     </>
   );

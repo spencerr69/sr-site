@@ -2,7 +2,9 @@
 import type { Track } from "@/lib/presskit";
 import { Slider } from "@base-ui/react/slider";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useInView } from "react-intersection-observer";
 
 type Status = "idle" | "loading" | "playing" | "paused";
 
@@ -21,6 +23,8 @@ export function PressPlayer({ tracks }: { tracks: Track[] }) {
   const [duration, setDuration] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [failed, setFailed] = useState<readonly string[]>([]);
+
+  const { ref: playerRef, inView, entry } = useInView({ initialInView: true });
 
   const current = index === null ? undefined : tracks[index];
 
@@ -60,8 +64,28 @@ export function PressPlayer({ tracks }: { tracks: Track[] }) {
     if (index !== null) start(index + 1);
   };
 
+  useLayoutEffect(() => {
+    const audio = audioRef.current;
+    const onPageHide = () => audio?.pause();
+    window.addEventListener("pagehide", onPageHide);
+    return () => {
+      window.removeEventListener("pagehide", onPageHide);
+      audio?.pause();
+    };
+  }, []);
+
+  const backToPlayer = () => {
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    entry?.target.scrollIntoView({
+      behavior: reduce ? "auto" : "smooth",
+      block: "center",
+    });
+  };
+
   return (
-    <section aria-label="listen">
+    <section ref={playerRef} aria-label="listen">
       <audio
         ref={audioRef}
         preload="none"
@@ -197,6 +221,46 @@ export function PressPlayer({ tracks }: { tracks: Track[] }) {
           </div>
         </div>
       )}
+
+      {current &&
+        !inView &&
+        createPortal(
+          <div className="fixed inset-x-0 bottom-0 z-40 flex h-16 items-center gap-3 border-t-2 border-dashed border-foreground/40 bg-background px-4">
+            <Image
+              src={current.artwork}
+              alt=""
+              width={40}
+              height={40}
+              className="size-10"
+            />
+            <button
+              type="button"
+              className="min-h-11 min-w-0 flex-1 cursor-pointer truncate text-left hover:text-accent"
+              onClick={backToPlayer}
+            >
+              {current.title}
+            </button>
+            <button
+              type="button"
+              className={button}
+              aria-label={
+                status === "playing" ? "pause" : `play ${current.title}`
+              }
+              onClick={toggle}
+            >
+              {status === "playing" ? "❚❚" : "▶"}
+            </button>
+            <button
+              type="button"
+              className={button}
+              aria-label="next"
+              onClick={next}
+            >
+              ⏭
+            </button>
+          </div>,
+          document.getElementById("player-bar") ?? document.body,
+        )}
     </section>
   );
 }
