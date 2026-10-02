@@ -23,6 +23,7 @@ const eslintConfig = defineConfig([
         { allowNumber: true },
       ],
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+      "@typescript-eslint/no-misused-promises": "off",
     },
   },
   {
